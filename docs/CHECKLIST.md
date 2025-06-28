@@ -9,6 +9,7 @@ Antes de iniciar qualquer trabalho, revise este checklist que é OBRIGATÓRIO pa
    . `npm run lint`
    . `npm run typecheck`
    . `npm run build`
+   . `npm run test:run`
    . Quando erros forem encontrados, resolva-os antes de prosseguir com o desenvolvimento
    . Warnings podem ser desconsiderados
 
