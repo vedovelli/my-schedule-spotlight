@@ -139,6 +139,12 @@ CREATE POLICY "Users can manage bookings for their event types" ON event_booking
             WHERE event_types.id = event_bookings.event_type_id 
             AND event_types.user_id = auth.uid()
         )
+    ) WITH CHECK (
+        EXISTS (
+            SELECT 1 FROM event_types 
+            WHERE event_types.id = event_bookings.event_type_id 
+            AND event_types.user_id = auth.uid()
+        )
     );
 
 -- ============================================================================
