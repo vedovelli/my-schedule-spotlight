@@ -116,11 +116,12 @@ const Index = () => {
 
   const getUserInitials = (email?: string) => {
     if (!email) return "U";
-    const parts = email.split("@")[0].split(".");
+    const username = email.split("@")[0];
+    const parts = username.split(".");
     if (parts.length >= 2) {
-      return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+      return `${parts[0][0] || ''}${parts[1][0] || ''}`.toUpperCase();
     }
-    return email[0].toUpperCase();
+    return username[0]?.toUpperCase() || "U";
   };
 
   const getUserDisplayName = (email?: string) => {

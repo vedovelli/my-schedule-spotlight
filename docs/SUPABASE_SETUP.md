@@ -28,7 +28,7 @@ VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here
 
 The Supabase client is configured with the following auth settings:
 
-- **Auto Refresh Token**: Enabled
+- **Auto-Refresh Token**: Enabled
 - **Persist Session**: Enabled
 - **Detect Session in URL**: Enabled
 

@@ -1,15 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Session, User, auth } from "@/lib/supabase";
-
-interface AuthError {
-  message: string;
-  status?: number;
-}
+import { Session, User, auth, AuthError } from "@/lib/supabase";
 
 interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  authLoading: boolean;
   signIn: (
     email: string,
     password: string
@@ -30,17 +26,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
 
   useEffect(() => {
     // Get initial session
     const getInitialSession = async () => {
       try {
-        const { data, error } = await auth.getSession();
-        if (error) {
-          console.error("Error getting session:", error);
-        } else if (data.session) {
-          setSession(data.session);
-          setUser(data.session.user);
+        const result = await auth.getSession();
+        if (result.error) {
+          console.error("Error getting session:", result.error);
+        } else if (result.data?.session) {
+          setSession(result.data.session);
+          setUser(result.data.session.user);
         }
       } catch (error) {
         console.error("Error in getInitialSession:", error);
@@ -67,62 +64,62 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    setLoading(true);
+    setAuthLoading(true);
     try {
-      const { data, error } = await auth.signIn(email, password);
-      if (error) {
-        console.error("Sign in error:", error);
-        return { error: error as AuthError };
+      const result = await auth.signIn(email, password);
+      if (result.error) {
+        console.error("Sign in error:", result.error);
+        return { error: result.error };
       }
       return { error: null };
     } catch (error) {
       console.error("Sign in exception:", error);
       return { error: error as AuthError };
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   const signUp = async (email: string, password: string) => {
-    setLoading(true);
+    setAuthLoading(true);
     try {
-      const { data, error } = await auth.signUp(email, password);
-      if (error) {
-        console.error("Sign up error:", error);
-        return { error: error as AuthError };
+      const result = await auth.signUp(email, password);
+      if (result.error) {
+        console.error("Sign up error:", result.error);
+        return { error: result.error };
       }
       return { error: null };
     } catch (error) {
       console.error("Sign up exception:", error);
       return { error: error as AuthError };
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   const signOut = async () => {
-    setLoading(true);
+    setAuthLoading(true);
     try {
-      const { error } = await auth.signOut();
-      if (error) {
-        console.error("Sign out error:", error);
-        return { error: error as AuthError };
+      const result = await auth.signOut();
+      if (result.error) {
+        console.error("Sign out error:", result.error);
+        return { error: result.error };
       }
       return { error: null };
     } catch (error) {
       console.error("Sign out exception:", error);
       return { error: error as AuthError };
     } finally {
-      setLoading(false);
+      setAuthLoading(false);
     }
   };
 
   const resetPassword = async (email: string) => {
     try {
-      const { data, error } = await auth.resetPassword(email);
-      if (error) {
-        console.error("Reset password error:", error);
-        return { error: error as AuthError };
+      const result = await auth.resetPassword(email);
+      if (result.error) {
+        console.error("Reset password error:", result.error);
+        return { error: result.error };
       }
       return { error: null };
     } catch (error) {
@@ -135,6 +132,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     user,
     session,
     loading,
+    authLoading,
     signIn,
     signUp,
     signOut,

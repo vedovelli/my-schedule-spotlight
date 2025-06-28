@@ -51,50 +51,81 @@ export type Session = {
   user: User;
 };
 
+export type AuthError = {
+  message: string;
+  status?: number;
+};
+
+export type AuthResult<T = unknown> = {
+  data: T | null;
+  error: AuthError | null;
+  success: boolean;
+};
+
+// Common error handling pattern for auth operations
+const handleAuthOperation = async <T>(
+  operation: () => Promise<{ data: T; error: AuthError | null }>
+): Promise<AuthResult<T>> => {
+  try {
+    const { data, error } = await operation();
+    return { 
+      data, 
+      error: error ? { message: error.message, status: error.status } : null, 
+      success: !error 
+    };
+  } catch (error) {
+    return { 
+      data: null, 
+      error: error as AuthError, 
+      success: false 
+    };
+  }
+};
+
 // Auth helper functions
 export const auth = {
   // Sign up with email and password
   signUp: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-    return { data, error };
+    return handleAuthOperation(() =>
+      supabase.auth.signUp({
+        email,
+        password,
+      })
+    );
   },
 
   // Sign in with email and password
   signIn: async (email: string, password: string) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    return { data, error };
+    return handleAuthOperation(() =>
+      supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+    );
   },
 
   // Sign out
   signOut: async () => {
-    const { error } = await supabase.auth.signOut();
-    return { error };
+    return handleAuthOperation(() => supabase.auth.signOut());
   },
 
   // Reset password
   resetPassword: async (email: string) => {
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    return { data, error };
+    return handleAuthOperation(() =>
+      supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      })
+    );
   },
 
   // Get current session
   getSession: async () => {
-    const { data, error } = await supabase.auth.getSession();
-    return { data, error };
+    return handleAuthOperation(() => supabase.auth.getSession());
   },
 
   // Get current user
   getUser: async () => {
-    const { data, error } = await supabase.auth.getUser();
-    return { data, error };
+    return handleAuthOperation(() => supabase.auth.getUser());
   },
 
   // Listen to auth changes
