@@ -11,8 +11,6 @@ Este checklist é **OBRIGATÓRIO** para qualquer tipo de trabalho no projeto. Se
 
 ### 1.1 Task Master & Planejamento
 
-- [ ] **Verificar Task Master configurado**: Execute `task-master models` para verificar configuração
-- [ ] **Identificar próxima tarefa**: Use `task-master next` para obter a próxima tarefa disponível
 - [ ] **Revisar detalhes da tarefa**: Execute `task-master show <id>` para entender completamente os requisitos
 - [ ] **Verificar dependências**: Confirmar que todas as dependências da tarefa estão marcadas como `done`
 
@@ -196,7 +194,6 @@ Incluir no `docs/PROGRESS.md`:
 
 ### 7.1 Preparação para Próxima Tarefa
 
-- [ ] **Verificar próxima tarefa**: `task-master next`
 - [ ] **Push das alterações**: `git push origin <branch-name>`
 - [ ] **Considerar PR**: Se tarefa pai completa, criar Pull Request
 
@@ -220,7 +217,6 @@ Incluir no `docs/PROGRESS.md`:
 
 ```bash
 # Comandos essenciais
-task-master next                    # Próxima tarefa
 task-master show <id>              # Detalhes da tarefa
 task-master set-status --id=<id> --status=done
 task-master update-subtask --id=<id> --prompt="..."
