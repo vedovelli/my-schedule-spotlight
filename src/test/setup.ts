@@ -13,6 +13,13 @@ expect.extend(matchers);
 vi.stubEnv('VITE_SUPABASE_URL', 'https://test.supabase.co');
 vi.stubEnv('VITE_SUPABASE_ANON_KEY', 'test-anon-key');
 
+// Mock ResizeObserver for Radix UI components
+global.ResizeObserver = vi.fn(() => ({
+  observe: vi.fn(),
+  unobserve: vi.fn(),
+  disconnect: vi.fn(),
+}));
+
 // Mock Supabase client with proper return values
 vi.mock('@/lib/supabase', () => ({
   auth: {
