@@ -15,6 +15,7 @@ Este projeto foi desenvolvido durante um workshop e implementa um sistema comple
 ## 🛠️ Stack Tecnológico
 
 ### Frontend
+
 - **React 18** com TypeScript
 - **Vite** - Build tool moderna e rápida
 - **React Router** - Roteamento SPA
@@ -25,6 +26,7 @@ Este projeto foi desenvolvido durante um workshop e implementa um sistema comple
 - **Tanstack Query** - Gerenciamento de estado do servidor
 
 ### Backend & Banco de Dados
+
 - **Supabase** - Backend-as-a-Service
   - PostgreSQL database
   - Authentication
@@ -32,6 +34,7 @@ Este projeto foi desenvolvido durante um workshop e implementa um sistema comple
   - Real-time subscriptions
 
 ### Ferramentas de Desenvolvimento
+
 - **ESLint + Prettier** - Linting e formatação
 - **Husky** - Git hooks
 - **Vitest** - Framework de testes
@@ -48,6 +51,7 @@ Certifique-se de ter instalado em sua máquina:
 - **Git** - [Download](https://git-scm.com/)
 
 Para verificar se estão instalados:
+
 ```bash
 node --version
 npm --version
@@ -116,6 +120,7 @@ VITE_SUPABASE_ANON_KEY=sua_anon_key_aqui
 **⚠️ Importante:** Substitua pelos valores reais copiados do Supabase.
 
 #### Exemplo:
+
 ```bash
 VITE_SUPABASE_URL=https://abcdefghijklmnop.supabase.co
 VITE_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
@@ -182,18 +187,21 @@ my-schedule-spotlight/
 ## 🔐 Funcionalidades Implementadas
 
 ### Autenticação
+
 - ✅ Cadastro de usuários
 - ✅ Login/Logout
 - ✅ Recuperação de senha
 - ✅ Rotas protegidas
 
 ### Gerenciamento de Eventos
+
 - ✅ Criar tipos de eventos
 - ✅ Definir disponibilidades por dia da semana
 - ✅ Visualizar eventos criados
 - ✅ Dashboard com estatísticas
 
 ### Sistema de Agendamentos
+
 - ✅ Página pública de agendamento
 - ✅ Verificação de conflitos
 - ✅ Listagem de agendamentos
@@ -212,6 +220,7 @@ npm run test:coverage
 ```
 
 Os testes cobrem:
+
 - Componentes de autenticação
 - Formulários de criação de eventos
 - Validações de dados
@@ -248,6 +257,7 @@ O projeto utiliza 3 tabelas principais:
 ### Row Level Security (RLS)
 
 As políticas de segurança garantem que:
+
 - Usuários só acessam seus próprios dados
 - Páginas públicas podem ler eventos específicos
 - Agendamentos são protegidos por validações
@@ -284,6 +294,7 @@ npm run typecheck
 ## 📚 Recursos de Aprendizado
 
 ### Documentação Oficial
+
 - [React](https://react.dev/)
 - [TypeScript](https://www.typescriptlang.org/)
 - [Supabase](https://supabase.com/docs)
@@ -291,6 +302,7 @@ npm run typecheck
 - [Shadcn/ui](https://ui.shadcn.com/)
 
 ### Conceitos Abordados
+
 - **React Hooks** (useState, useEffect, custom hooks)
 - **Context API** para autenticação
 - **React Router** para SPA

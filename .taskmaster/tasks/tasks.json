@@ -561,11 +561,22 @@
         "dependencies": [1, 2, 3, 13, 14],
         "status": "pending",
         "subtasks": []
+      },
+      {
+        "id": 16,
+        "title": "Security Vulnerability Remediation",
+        "description": "Implement security fixes identified in the vulnerability analysis report, including fixing hardcoded API keys, adding server-side validation, enabling email confirmation, correcting scheduling conflict logic, implementing restrictive CORS policy, and other recommended security enhancements.",
+        "details": "1. Fix hardcoded API key vulnerability by moving API keys to environment variables and implementing proper secret management. 2. Implement comprehensive server-side validation for all user inputs using a validation library like Zod. 3. Enable email confirmation flow to verify user identity before account activation. 4. Review and fix booking conflict logic in the Supabase Edge Function to prevent race conditions and double bookings. 5. Implement restrictive CORS policy that only allows necessary origins. 6. Add rate limiting to API endpoints to prevent abuse. 7. Implement proper error handling that doesn't expose sensitive information. 8. Add Content Security Policy headers to prevent XSS attacks. 9. Implement proper input sanitization to prevent injection attacks. 10. Review and strengthen Row Level Security policies in Supabase to ensure users can only access their own data. 11. Add audit logging for security-relevant actions. 12. Update authentication flow to use stronger password requirements and implement account lockout after failed attempts. 13. Add security headers including X-Content-Type-Options, X-Frame-Options, and X-XSS-Protection.",
+        "testStrategy": "1. Verify API keys and secrets are not present in client-side code. 2. Test server-side validation by attempting to submit invalid data through API endpoints. 3. Verify email confirmation flow works end-to-end and prevents access before confirmation. 4. Run concurrent booking tests to verify conflict detection prevents double bookings. 5. Test CORS policy by attempting requests from unauthorized origins. 6. Verify rate limiting blocks excessive requests. 7. Ensure error messages don't leak sensitive information. 8. Use security scanning tools like OWASP ZAP to verify absence of common vulnerabilities. 9. Test RLS policies by attempting to access data belonging to other users. 10. Verify audit logs capture all security-relevant events. 11. Test password validation and account lockout functionality. 12. Verify security headers are present in all responses using tools like SecurityHeaders.com.",
+        "status": "pending",
+        "dependencies": [5, 9, 11, 12],
+        "priority": "medium",
+        "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-06-28T13:34:00.207Z",
-      "updated": "2025-06-28T19:36:21.814Z",
+      "updated": "2025-06-28T20:00:57.146Z",
       "description": "Tasks for master context"
     }
   }
