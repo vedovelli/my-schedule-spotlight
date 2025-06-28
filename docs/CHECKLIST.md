@@ -5,6 +5,8 @@
 
 Este checklist é **OBRIGATÓRIO** para qualquer tipo de trabalho no projeto. Seguir estas diretrizes garante qualidade, consistência e rastreabilidade do desenvolvimento.
 
+**Importante**: qualquer iteração com o Task Master deve ser feita utilizando seu MCP, ao contrário do que foi dito nestas instruções. Novamente, jamais utilize os comandos de terminal, utilize o MCP.
+
 ---
 
 ## 🎯 **1. Preparação Inicial (Antes de Iniciar)**
