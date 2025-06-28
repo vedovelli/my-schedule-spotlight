@@ -1,264 +1,200 @@
-# 📋 Checklist de Desenvolvimento Obrigatório
+# 📋 Checklist de Desenvolvimento
 
-> **Atualizado em:** 2025-06-28 11:59:40  
-> **Versão:** 2.0 - Checklist Aprimorado com Automação
+> **Atualizado em:** 2025-06-28 15:35:00  
+> **Versão:** 3.0 - MCP-First & Otimizado
 
-Este checklist é **OBRIGATÓRIO** para qualquer tipo de trabalho no projeto. Seguir estas diretrizes garante qualidade, consistência e rastreabilidade do desenvolvimento.
+Este checklist é **OBRIGATÓRIO** para qualquer trabalho no projeto. Garante qualidade, consistência e rastreabilidade do desenvolvimento.
+
+**🚨 IMPORTANTE**: Use **APENAS Task Master MCP** - não use comandos CLI do terminal.
+---
+
+## 🎯 **1. Preparação & Início**
+
+### 1.1 Task Master (MCP)
+- [ ] **Visualizar tarefa**: Use MCP tool `get_task` para entender requisitos completos
+- [ ] **Verificar dependências**: Confirmar que tarefas dependentes estão `done`
+- [ ] **Marcar início**: Use MCP tool `set_task_status` → `in-progress`
+
+### 1.2 Git & Branch
+- [ ] **Verificar branch**: `git branch` para confirmar localização atual
+- [ ] **Criar branch** (se necessário): `git checkout -b task/<numero>-<nome>`
+- [ ] **Sincronizar**: `git pull origin main` antes de iniciar
 
 ---
 
-## 🎯 **1. Preparação Inicial (Antes de Iniciar)**
-
-### 1.1 Task Master & Planejamento
-
-- [ ] **Verificar Task Master configurado**: Execute `task-master models` para verificar configuração
-- [ ] **Identificar próxima tarefa**: Use `task-master next` para obter a próxima tarefa disponível
-- [ ] **Revisar detalhes da tarefa**: Execute `task-master show <id>` para entender completamente os requisitos
-- [ ] **Verificar dependências**: Confirmar que todas as dependências da tarefa estão marcadas como `done`
-
-### 1.2 Git & Branch Management
-
-- [ ] **Verificar branch atual**: Execute `git branch` para confirmar branch
-- [ ] **Criar novo branch** (se primeira subtarefa): Use template `task/<task-number>-<task-name>`
-  ```bash
-  git checkout -b task/15-user-authentication
-  ```
-- [ ] **Sincronizar com remote**: Execute `git pull origin main` antes de iniciar
-
-### 1.3 Estado da Tarefa
-
-- [ ] **Marcar subtarefa como in-progress**: `task-master set-status --id=<subtask-id> --status=in-progress`
-- [ ] **Marcar tarefa pai como in-progress** (se aplicável): `task-master set-status --id=<task-id> --status=in-progress`
-
----
-
-## 🔍 **2. Quality Assurance (QA) - Automático via Husky**
-
-> **✨ Novidade:** Husky configurado para execução automática no pre-commit!
-
-### 2.1 Execução Manual (Durante Desenvolvimento)
-
-Execute as ferramentas de QA periodicamente durante o desenvolvimento:
-
-```bash
-npm run lint        # ESLint - Verificação de código
-npm run typecheck   # TypeScript - Verificação de tipos
-npm run build       # Vite - Build de produção
-npm run test:run    # Vitest - Execução completa dos testes
-```
-
-### 2.2 Execução Automática (Pre-commit)
-
-- [ ] **Husky configurado**: Pre-commit hook executa automaticamente todas as ferramentas de QA
-- [ ] **Resolver erros obrigatoriamente**: Commits são bloqueados se houver erros
-- [ ] **Warnings permitidos**: Conforme especificação do projeto (principalmente react-refresh)
-
-### 2.3 Ferramentas Adicionais Disponíveis
-
-```bash
-npm run test        # Modo watch para desenvolvimento
-npm run test:ui     # Interface visual do Vitest
-npm run test:coverage  # Relatório de cobertura
-npm run preview     # Preview da build de produção
-```
-
----
-
-## 🧪 **3. Testes & Validação**
-
-### 3.1 Ambiente de Testes Configurado
-
-- [ ] **Vitest + jsdom**: Framework de testes moderno e rápido
-- [ ] **React Testing Library**: Testes focados no comportamento do usuário
-- [ ] **jest-dom matchers**: Matchers customizados para DOM
-- [ ] **Mocks configurados**: React Router e React Query providers
-
-### 3.2 Estratégia de Testes
-
-- [ ] **Testar comportamento**: Foco no que o usuário vê e faz
-- [ ] **Evitar testes de implementação**: Não testar detalhes internos
-- [ ] **Usar test-utils.tsx**: Render customizado com providers
-- [ ] **Mocks inline**: Definir mocks diretamente nos arquivos de teste
-
-### 3.3 Cobertura Atual
-
-- **Componentes de autenticação**: 100% cobertos (28 testes)
-- **Funções utilitárias**: A implementar conforme necessário
-- **Integração**: Considerar testes E2E futuros
-
----
-
-## 📝 **4. Implementação & Desenvolvimento**
-
-### 4.1 Estrutura do Projeto
-
-```
-src/
-├── components/        # Componentes React + shadcn/ui
-├── pages/            # Páginas da aplicação
-├── hooks/            # Custom hooks
-├── lib/              # Utilitários e configurações
-└── test/             # Ambiente de testes completo
-```
-
-### 4.2 Tecnologias & Ferramentas
-
-- **Frontend**: React 18 + TypeScript + Vite
-- **UI**: shadcn/ui + Tailwind CSS + Lucide Icons
-- **Routing**: React Router DOM v6
-- **State**: React Query + React Hook Form
-- **Testing**: Vitest + Testing Library
-- **Linting**: ESLint + TypeScript ESLint
-
-### 4.3 Padrões de Código
-
-- [ ] **TypeScript**: Configuração flexível (strict: false para desenvolvimento rápido)
-- [ ] **Componentes**: Usar shadcn/ui como base
-- [ ] **Styling**: Tailwind CSS com design system consistente
-- [ ] **Forms**: React Hook Form + Zod para validação
-- [ ] **Icons**: Lucide React (biblioteca padrão)
-
----
-
-## 📊 **5. Logging & Progresso**
-
-### 5.1 Task Master Updates
-
-- [ ] **Log de progresso**: Use `task-master update-subtask --id=<id> --prompt="..."` para registrar:
-  - Descobertas durante implementação
-  - Problemas encontrados e soluções
-  - Decisões técnicas importantes
-  - Links para documentação relevante
-
-### 5.2 Exemplo de Update
-
-```bash
-task-master update-subtask --id=15.2 --prompt="
-Implementação do JWT auth concluída:
-- Configurado interceptor do axios para tokens
-- Implementado refresh automático
-- Adicionados testes para fluxo completo
-- Problema: CORS issues resolvidos com proxy Vite
-- Referência: https://vitejs.dev/config/server-options.html#server-proxy
-"
-```
-
----
-
-## ✅ **6. Finalização (Ao Concluir Subtarefa)**
-
-### 6.1 Commit & Git
-
-- [ ] **Staging completo**: `git add --all` (Husky executará QA automaticamente)
-- [ ] **Commit descritivo**: Seguir padrão conventional commits
-
-  ```bash
-  git commit -m "feat(auth): implement JWT authentication system
-
-  - Add JWT token management with refresh
-  - Implement protected route guards
-  - Add comprehensive auth tests
-  - Configure axios interceptors
-
-  Closes subtask 15.2"
-  ```
-
-### 6.2 Task Master Status
-
-- [ ] **Marcar subtarefa como done**: `task-master set-status --id=<subtask-id> --status=done`
-- [ ] **Verificar tarefa pai**: Se todas as subtarefas estão concluídas, marcar tarefa pai como `done`
-
-### 6.3 Documentação Histórica
-
-- [ ] **Atualizar PROGRESS.md**: Registro detalhado com timestamp usando `date`
-  ```bash
-  # Obter timestamp correto
-  date
-  # Adicionar entrada detalhada no docs/PROGRESS.md
-  ```
-
-### 6.4 Conteúdo do Log de Progresso
-
-Incluir no `docs/PROGRESS.md`:
-
-- **Timestamp correto** (usar `date` no bash)
-- **Resumo da implementação**
-- **Decisões técnicas importantes**
-- **Problemas encontrados e soluções**
-- **Arquivos modificados/criados**
-- **Métricas de QA** (testes passando, build status)
-- **Próximos passos identificados**
-- **Hash do commit** e mensagem
-
----
-
-## 🚀 **7. Próximos Passos & Continuidade**
-
-### 7.1 Preparação para Próxima Tarefa
-
-- [ ] **Verificar próxima tarefa**: `task-master next`
-- [ ] **Push das alterações**: `git push origin <branch-name>`
-- [ ] **Considerar PR**: Se tarefa pai completa, criar Pull Request
-
-### 7.2 Manutenção Contínua
-
-- [ ] **Monitorar warnings**: Revisar periodicamente warnings do linter
-- [ ] **Atualizar dependências**: Usar `npm audit` para segurança
-- [ ] **Expandir testes**: Adicionar cobertura conforme necessário
-
----
-
-## 🛠️ **8. Ferramentas de Apoio**
-
-### 8.1 Task Master MCP (Recomendado)
-
-- Integração nativa com Cursor
-- Performance superior ao CLI
-- Dados estruturados e melhor tratamento de erros
-
-### 8.2 Task Master CLI (Fallback)
-
-```bash
-# Comandos essenciais
-task-master next                    # Próxima tarefa
-task-master show <id>              # Detalhes da tarefa
-task-master set-status --id=<id> --status=done
-task-master update-subtask --id=<id> --prompt="..."
-```
-
-### 8.3 Scripts NPM Úteis
-
+## 🔍 **2. Desenvolvimento & QA Automática**
+
+### 2.1 Ferramentas de Qualidade (Husky Automático)
+O Husky executa automaticamente no commit:
+- ✅ **Lint**: ESLint com verificação de código
+- ✅ **TypeCheck**: TypeScript sem erros
+- ✅ **Build**: Vite build de produção
+- ✅ **Tests**: Vitest execution completa
+
+### 2.2 Execução Manual (Durante Desenvolvimento)
 ```bash
 npm run dev         # Desenvolvimento com hot reload
-npm run build:dev   # Build em modo desenvolvimento
-npm run preview     # Preview da build
+npm run test        # Testes em modo watch
+npm run test:ui     # Interface visual do Vitest
+npm run lint        # Verificação ESLint
+npm run typecheck   # Verificação TypeScript
+```
+
+### 2.3 Estrutura de Testes Configurada
+- **Vitest + jsdom**: Framework moderno e rápido
+- **React Testing Library**: Testes focados no usuário
+- **jest-dom matchers**: Matchers customizados para DOM
+- **test-utils.tsx**: Render com providers configurados
+- **28 testes** atualmente passando (100% auth coverage)
+
+---
+
+## 📝 **3. Implementação & Logging**
+
+### 3.1 Padrões do Projeto
+- **Frontend**: React 18 + TypeScript + Vite
+- **UI**: shadcn/ui + Tailwind CSS + Lucide Icons
+- **Auth**: Supabase com session management
+- **Routing**: React Router DOM v6 + ProtectedRoutes
+- **State**: React Query + React Hook Form
+- **Testing**: Vitest + Testing Library
+
+### 3.2 Estrutura de Diretórios
+```
+src/
+├── components/       # Componentes React + shadcn/ui
+├── pages/           # Páginas da aplicação  
+├── hooks/           # Custom hooks (ex: use-auth.tsx)
+├── lib/             # Utilitários (ex: supabase.ts)
+└── test/            # Ambiente completo de testes
+```
+
+### 3.3 Logging de Progresso (MCP)
+Durante desenvolvimento, use MCP tool `update_subtask`:
+
+**Registrar:**
+- Descobertas e problemas encontrados
+- Decisões técnicas importantes
+- Links para documentação relevante
+- Status de implementação
+
+**Exemplo**:
+```
+Implementação autenticação Supabase:
+- JWT tokens com refresh automático implementado
+- ProtectedRoute component criado e testado
+- AuthProvider context configurado
+- Problema: CORS resolvido com configuração Vite
+- Ref: https://supabase.com/docs/guides/auth
 ```
 
 ---
 
-## 📚 **9. Recursos & Documentação**
+## ✅ **4. Finalização & Commit**
 
-### 9.1 Documentação Interna
+### 4.1 Commit & Qualidade
+- [ ] **Stage changes**: `git add -A` 
+- [ ] **Commit**: Husky executará QA automaticamente
+- [ ] **Resolver erros**: Se QA falhar, corrigir antes de continuar
+- [ ] **Commit message**: Usar conventional commits format
 
+**Exemplo de commit**:
+```bash
+git commit -m "feat(auth): implement Supabase authentication
+
+- Add JWT token management with auto-refresh
+- Create ProtectedRoute component with loading states  
+- Implement AuthProvider context with user state
+- Add comprehensive auth test coverage (28 tests)
+- Configure Supabase client with error handling
+
+Closes task 2.3"
+```
+
+### 4.2 Task Master Status (MCP)
+- [ ] **Marcar concluído**: Use MCP tool `set_task_status` → `done`
+- [ ] **Verificar tarefa pai**: Se todas subtarefas `done`, marcar tarefa pai
+- [ ] **Push alterações**: `git push origin <branch-name>`
+
+### 4.3 Documentação (Quando Aplicável)
+- [ ] **Atualizar PROGRESS.md**: Log detalhado com timestamp
+- [ ] **Incluir métricas**: Tests passing, build status, files changed
+- [ ] **Hash do commit**: Para rastreabilidade
+
+---
+
+## 🚀 **5. Scripts & Ferramentas**
+
+### 5.1 Scripts NPM Disponíveis
+```bash
+# Desenvolvimento
+npm run dev              # Vite dev server
+npm run build            # Production build
+npm run build:dev        # Development build
+npm run preview          # Preview production build
+
+# Qualidade & Testes  
+npm run lint             # ESLint check
+npm run typecheck        # TypeScript check
+npm run test             # Vitest watch mode
+npm run test:run         # Vitest single run
+npm run test:ui          # Visual test interface
+npm run test:coverage    # Coverage report
+```
+
+### 5.2 Task Master MCP Tools
+- `get_task` - Visualizar detalhes da tarefa
+- `get_tasks` - Listar tarefas por status
+- `set_task_status` - Alterar status da tarefa
+- `update_subtask` - Adicionar progresso/notas
+- `next_task` - Encontrar próxima tarefa disponível
+
+---
+
+## 📚 **6. Recursos & Documentação**
+
+### 6.1 Documentação Interna
 - `docs/PRD.md` - Requisitos do produto
-- `docs/PROGRESS.md` - Log histórico detalhado
+- `docs/PROGRESS.md` - Log histórico detalhado  
+- `docs/SUPABASE_SETUP.md` - Configuração de autenticação
 - `src/test/README.md` - Guia do ambiente de testes
 
-### 9.2 Referências Externas
-
+### 6.2 Referências Técnicas
 - [Vite Documentation](https://vitejs.dev/)
 - [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/)
 - [shadcn/ui Components](https://ui.shadcn.com/)
+- [Supabase Auth Guide](https://supabase.com/docs/guides/auth)
 - [Tailwind CSS](https://tailwindcss.com/)
 
 ---
 
-## ⚠️ **Importante: Automação vs. Manual**
+## ⚡ **Fluxo Rápido**
 
-- **✅ Automático (Husky)**: QA tools executam automaticamente no commit
-- **🔄 Manual**: Task Master updates, status changes, documentation
-- **🎯 Foco**: Qualidade garantida, desenvolvimento eficiente, rastreabilidade completa
+Para desenvolvedores experientes, fluxo mínimo:
+
+1. **MCP**: `get_task` → `set_task_status` (in-progress)
+2. **Git**: `git checkout -b task/X-nome`
+3. **Desenvolver**: Implementar + testar localmente
+4. **MCP**: `update_subtask` com progresso
+5. **Commit**: `git add -A && git commit -m "..."` (Husky QA automático)
+6. **MCP**: `set_task_status` (done)
+7. **Push**: `git push origin <branch>`
 
 ---
 
-_Checklist v2.0 - Atualizado com base na implementação do Husky e estrutura completa do projeto_
+## 🔧 **Resolução de Problemas**
+
+### QA Failures
+- **Lint errors**: Corrigir erros obrigatoriamente (warnings OK)
+- **TypeScript errors**: Resolver problemas de tipo
+- **Test failures**: Todos os 28 testes devem passar
+- **Build errors**: Build deve compilar sem erros
+
+### Task Master Issues  
+- **Use MCP tools**: Nunca use comandos CLI
+- **Verifique conexão**: Ensure MCP server está ativo
+- **Dados estruturados**: MCP fornece melhor tratamento de erros
+
+---
+
+_Checklist v3.0 - Focado em MCP, QA automática e desenvolvimento eficiente_
