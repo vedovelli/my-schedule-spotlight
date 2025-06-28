@@ -10,7 +10,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
   );
 }
 
-// Create Supabase client
+// Create Supabase client for authentication only
+// All database operations are handled through Edge Functions
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     // Configure auth settings
@@ -20,10 +21,98 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   },
 });
 
-// Database types (will be expanded as we create the schema)
+// Database types for the application schema
 export type Database = {
   public: {
-    Tables: Record<string, never>;
+    Tables: {
+      event_types: {
+        Row: {
+          id: string;
+          user_id: string;
+          title: string;
+          description: string | null;
+          duration_minutes: number;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          title: string;
+          description?: string | null;
+          duration_minutes: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          title?: string;
+          description?: string | null;
+          duration_minutes?: number;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      event_availabilities: {
+        Row: {
+          id: string;
+          event_type_id: string;
+          day_of_week: number;
+          start_time: string;
+          end_time: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          event_type_id: string;
+          day_of_week: number;
+          start_time: string;
+          end_time: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          event_type_id?: string;
+          day_of_week?: number;
+          start_time?: string;
+          end_time?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+      };
+      event_bookings: {
+        Row: {
+          id: string;
+          event_type_id: string;
+          user_email: string;
+          scheduled_for: string;
+          created_at: string;
+          updated_at: string;
+          status: string;
+        };
+        Insert: {
+          id?: string;
+          event_type_id: string;
+          user_email: string;
+          scheduled_for: string;
+          created_at?: string;
+          updated_at?: string;
+          status?: string;
+        };
+        Update: {
+          id?: string;
+          event_type_id?: string;
+          user_email?: string;
+          scheduled_for?: string;
+          created_at?: string;
+          updated_at?: string;
+          status?: string;
+        };
+      };
+    };
     Views: {
       [_ in never]: never;
     };
@@ -134,6 +223,73 @@ export const auth = {
   ) => {
     return supabase.auth.onAuthStateChange(callback);
   },
+};
+
+// Database helper types
+export type EventType = Database['public']['Tables']['event_types']['Row'];
+export type EventTypeInsert =
+  Database['public']['Tables']['event_types']['Insert'];
+export type EventTypeUpdate =
+  Database['public']['Tables']['event_types']['Update'];
+
+export type EventAvailability =
+  Database['public']['Tables']['event_availabilities']['Row'];
+export type EventAvailabilityInsert =
+  Database['public']['Tables']['event_availabilities']['Insert'];
+export type EventAvailabilityUpdate =
+  Database['public']['Tables']['event_availabilities']['Update'];
+
+export type EventBooking =
+  Database['public']['Tables']['event_bookings']['Row'];
+export type EventBookingInsert =
+  Database['public']['Tables']['event_bookings']['Insert'];
+export type EventBookingUpdate =
+  Database['public']['Tables']['event_bookings']['Update'];
+
+// Enums for type safety
+export const BookingStatus = {
+  CONFIRMED: 'confirmed',
+  CANCELLED: 'cancelled',
+  COMPLETED: 'completed',
+} as const;
+
+export type BookingStatusType =
+  (typeof BookingStatus)[keyof typeof BookingStatus];
+
+// Days of week enum (0 = Sunday, 6 = Saturday)
+export const DayOfWeek = {
+  SUNDAY: 0,
+  MONDAY: 1,
+  TUESDAY: 2,
+  WEDNESDAY: 3,
+  THURSDAY: 4,
+  FRIDAY: 5,
+  SATURDAY: 6,
+} as const;
+
+export type DayOfWeekType = (typeof DayOfWeek)[keyof typeof DayOfWeek];
+
+// Helper function to get day name from number
+export const getDayName = (day: number): string => {
+  const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+  ];
+  return days[day] || 'Unknown';
+};
+
+// Helper function to format time for display
+export const formatTime = (time: string): string => {
+  return new Date(`1970-01-01T${time}`).toLocaleTimeString('en-US', {
+    hour: 'numeric',
+    minute: '2-digit',
+    hour12: true,
+  });
 };
 
 export default supabase;
