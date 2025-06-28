@@ -19,9 +19,7 @@
         "details": "Create a new Supabase project. Install supabase-js: `npm install @supabase/supabase-js`. Create a helper file (lib/supabase.ts) to initialize the Supabase client using environment variables. Configure .env files for development and production. Enable email/password authentication in Supabase dashboard. Implement AuthProvider context for managing authentication state. Create login, signup, and password recovery pages using Shadcn UI components. Implement form validation using React Hook Form or Zod. Set up protected routes using React Router with authentication checks.",
         "testStrategy": "Test user registration flow with valid and invalid inputs. Verify login functionality with correct and incorrect credentials. Test password recovery process. Ensure protected routes redirect unauthenticated users to login page. Test session persistence across page refreshes.",
         "priority": "high",
-        "dependencies": [
-          1
-        ],
+        "dependencies": [1],
         "status": "pending",
         "subtasks": [
           {
@@ -37,9 +35,7 @@
             "id": 2,
             "title": "Implement authentication methods",
             "description": "Create core authentication functions for signup, login, logout, and password reset",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement and test core authentication functions using Supabase Auth API, including email/password signup, login, logout, and password reset functionality. Create helper functions to abstract Supabase implementation details",
             "status": "pending",
             "testStrategy": ""
@@ -48,9 +44,7 @@
             "id": 3,
             "title": "Create authentication UI components",
             "description": "Build UI components for authentication flows with form validation",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Develop reusable UI components for signup, login, and password reset forms with proper validation. Implement error handling for authentication failures and success notifications for completed actions",
             "status": "pending",
             "testStrategy": ""
@@ -59,9 +53,7 @@
             "id": 4,
             "title": "Set up protected routes and auth state",
             "description": "Implement route protection and global authentication state management",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Create a global authentication context to manage and expose user state throughout the application. Implement protected route components/guards that redirect unauthenticated users to login page. Set up navigation flows based on authentication status",
             "status": "pending",
             "testStrategy": ""
@@ -70,10 +62,7 @@
             "id": 5,
             "title": "Implement session persistence and recovery",
             "description": "Add session persistence, token refresh, and account recovery flows",
-            "dependencies": [
-              2,
-              4
-            ],
+            "dependencies": [2, 4],
             "details": "Implement session persistence across page refreshes, automatic token refresh logic, account recovery flows including password reset, and session timeout handling. Add security enhancements like session invalidation on logout across devices",
             "status": "pending",
             "testStrategy": ""
@@ -87,9 +76,7 @@
         "details": "Set up the following tables in Supabase: 1) `event_types` with fields: id (UUID, PK), user_id (FK), title, description, duration_minutes, created_at. 2) `event_availabilities` with fields: id (UUID, PK), event_type_id (FK), day_of_week (int: 0-6), start_time (time), end_time (time). 3) `event_bookings` with fields: id (UUID, PK), event_type_id (FK), user_email, scheduled_for (timestamp), created_at. Configure Row Level Security (RLS) policies to ensure data security. Create appropriate indexes for query optimization. Set up foreign key relationships between tables. Enable real-time subscriptions for relevant tables.",
         "testStrategy": "Verify tables are created with correct schemas. Test RLS policies to ensure proper access control. Check that foreign key constraints work correctly. Test real-time subscription functionality for immediate updates.",
         "priority": "high",
-        "dependencies": [
-          2
-        ],
+        "dependencies": [2],
         "status": "pending",
         "subtasks": []
       },
@@ -100,10 +87,7 @@
         "details": "Install React Router: `npm install react-router-dom`. Create the following routes as specified in the PRD: /login, /signup, /recover, /dashboard, /event/new, /event/:id, /schedule/:event_slug. Implement route protection using authentication context. Create a base layout component with responsive design. Implement sidebar navigation for authenticated routes. Create header component with user dropdown. Use Shadcn UI components for consistent styling. Implement dark theme toggle functionality. Apply yellow primary color scheme (#FACC15) as specified in the PRD.",
         "testStrategy": "Test navigation between routes. Verify protected routes block unauthenticated access. Test responsive behavior of layouts on different screen sizes. Ensure dark mode toggle works correctly. Verify that the route components render correctly with the proper layout.",
         "priority": "medium",
-        "dependencies": [
-          1,
-          2
-        ],
+        "dependencies": [1, 2],
         "status": "pending",
         "subtasks": [
           {
@@ -119,9 +103,7 @@
             "id": 2,
             "title": "Create reusable layout components",
             "description": "Develop layout components including header, sidebar, footer, and responsive container components",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Design and implement responsive layout components that maintain consistent structure across different routes. Create components for app shell including header with navigation, collapsible sidebar with menu items, footer with relevant links, and main content area. Ensure components adapt to different screen sizes with appropriate breakpoints.",
             "status": "pending",
             "testStrategy": ""
@@ -130,9 +112,7 @@
             "id": 3,
             "title": "Implement theme system with dark/light mode",
             "description": "Set up theming infrastructure with CSS variables or styled-components and implement theme switching functionality",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Create a theme system with color variables, spacing, typography, and other design tokens. Implement theme switching functionality with persistent user preference storage. Ensure all components properly use theme variables instead of hardcoded values. Add transitions for smooth theme changes and support for system preference detection.",
             "status": "pending",
             "testStrategy": ""
@@ -146,10 +126,7 @@
         "details": "Create Dashboard component using Shadcn UI Card components. Implement statistics display for: total event types, total active availabilities, and monthly bookings count. Create function to fetch user's events from Supabase. Implement event card components displaying event title, description, and duration. Add functionality to copy event link to clipboard. Add button to view event details. Use Shadcn UI Button and other components for UI elements. Implement loading and error states. Add sorting and filtering options for the events list.",
         "testStrategy": "Test dashboard rendering with various data scenarios. Verify statistics calculation accuracy. Test event list pagination, sorting, and filtering. Check link copying functionality. Verify navigation to event details page. Test loading and error states.",
         "priority": "medium",
-        "dependencies": [
-          3,
-          4
-        ],
+        "dependencies": [3, 4],
         "status": "pending",
         "subtasks": [
           {
@@ -174,10 +151,7 @@
             "id": 3,
             "title": "Create Reusable Dashboard Card Components",
             "description": "Design and implement modular card components for displaying dashboard information",
-            "dependencies": [
-              1,
-              2
-            ],
+            "dependencies": [1, 2],
             "details": "Build flexible card components that can display statistics, events, and other dashboard data. Include proper styling, responsive design, and customizable layouts. Cards should support different content types including charts, lists, and summary information. Ensure accessibility and consistent visual design across all card variants.",
             "status": "pending",
             "testStrategy": ""
@@ -186,10 +160,7 @@
             "id": 4,
             "title": "Implement Sorting and Filtering Functionality",
             "description": "Add interactive sorting and filtering capabilities to dashboard data displays",
-            "dependencies": [
-              2,
-              3
-            ],
+            "dependencies": [2, 3],
             "details": "Create sorting mechanisms for events and statistics by various criteria (date, name, value, etc.). Implement filtering options to allow users to narrow down displayed data based on categories, date ranges, or custom criteria. Include search functionality and ensure filters work seamlessly with the card components and event displays.",
             "status": "pending",
             "testStrategy": ""
@@ -203,10 +174,7 @@
         "details": "Create NewEventPage component with form using Shadcn UI Form components. Implement form validation using zod schema. Create fields for title, description, and duration in minutes. Implement day of week selection with checkboxes. Create time range picker component for setting start/end times per day. Ensure time inputs use proper time format. Implement form submission handler to save event data to Supabase. Add error handling and success feedback. Create reusable time input components. Enable adding multiple time ranges per day.",
         "testStrategy": "Test form validation for all fields. Verify that time ranges are properly validated (start before end). Test saving event data to Supabase. Check error handling with invalid inputs. Test adding and removing time ranges. Ensure proper feedback is displayed after submission.",
         "priority": "high",
-        "dependencies": [
-          3,
-          4
-        ],
+        "dependencies": [3, 4],
         "status": "pending",
         "subtasks": [
           {
@@ -222,9 +190,7 @@
             "id": 2,
             "title": "Implement form validation setup",
             "description": "Set up validation logic for all form fields including required fields, format validation, and error messaging",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement form validation using the application's validation library or framework. Create validation rules for all input fields, handling required fields, format validation (emails, dates, etc.), and custom validation logic. Set up error messaging system to display validation errors to users in a user-friendly way.",
             "status": "pending",
             "testStrategy": ""
@@ -233,10 +199,7 @@
             "id": 3,
             "title": "Develop time range selection components",
             "description": "Create components for selecting start and end times with appropriate UI controls and validation",
-            "dependencies": [
-              1,
-              2
-            ],
+            "dependencies": [1, 2],
             "details": "Implement time picker components that allow users to select start and end times for events. Include validation to ensure end time is after start time. Consider timezone handling if applicable. The component should be reusable for multiple time ranges and support both 12-hour and 24-hour time formats depending on user preferences.",
             "status": "pending",
             "testStrategy": ""
@@ -245,9 +208,7 @@
             "id": 4,
             "title": "Implement day selection with multiple time ranges",
             "description": "Create UI for selecting multiple days and configuring different time ranges for each day",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Develop a component that allows users to select multiple days of the week and configure different time ranges for each selected day. Include functionality to add/remove time ranges for each day. Ensure appropriate validation when multiple time ranges are added for the same day (no overlapping times, etc.).",
             "status": "pending",
             "testStrategy": ""
@@ -256,10 +217,7 @@
             "id": 5,
             "title": "Implement form submission handling",
             "description": "Create submission logic that validates all inputs, formats data correctly, and handles API requests",
-            "dependencies": [
-              2,
-              4
-            ],
+            "dependencies": [2, 4],
             "details": "Implement form submission handler that performs final validation of all inputs. Format the collected data according to API requirements, including proper date/time formatting. Handle the API request with appropriate loading states, success messaging, and error handling. Include functionality to save form state in case of navigation away from the page.",
             "status": "pending",
             "testStrategy": ""
@@ -273,10 +231,7 @@
         "details": "Create ViewEventPage component to display event details. Implement data fetching from Supabase for event and availability data. Create edit mode with prefilled form fields. Reuse form components from event creation page. Implement update functionality to save changes. Add delete option with confirmation dialog. Create booking history section showing past and upcoming bookings. Add event link copying functionality. Implement real-time updates using Supabase subscriptions.",
         "testStrategy": "Test loading event data correctly. Verify edit functionality updates the correct fields. Test delete functionality with confirmation. Verify that time slots can be added, modified, and removed. Test error handling during updates. Verify real-time updates when bookings are made.",
         "priority": "medium",
-        "dependencies": [
-          5,
-          6
-        ],
+        "dependencies": [5, 6],
         "status": "pending",
         "subtasks": [
           {
@@ -292,9 +247,7 @@
             "id": 2,
             "title": "Build Event Display Components",
             "description": "Create UI components for viewing event information",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Design and implement components to display event details including title, date/time, location, description, and participants. Create responsive layouts that work across device sizes. Implement skeleton loaders for improving perceived performance. Add formatting utilities for dates, times, and other specialized data. Consider accessibility features such as ARIA attributes and keyboard navigation.",
             "status": "pending",
             "testStrategy": ""
@@ -303,10 +256,7 @@
             "id": 3,
             "title": "Implement Event Edit Functionality",
             "description": "Create forms and validation for editing event information",
-            "dependencies": [
-              1,
-              2
-            ],
+            "dependencies": [1, 2],
             "details": "Build form components for editing event details with appropriate input validation. Implement state management for form data using context/reducer pattern. Create API services for submitting updated event data. Add optimistic UI updates while waiting for server confirmation. Implement error handling for failed update operations with user feedback. Add draft saving functionality for long forms.",
             "status": "pending",
             "testStrategy": ""
@@ -315,9 +265,7 @@
             "id": 4,
             "title": "Develop Event Deletion Operations",
             "description": "Implement delete functionality with confirmation dialog",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Create a confirmation modal/dialog to prevent accidental deletions. Implement API service function for event deletion. Add success/error notifications for delete operations. Implement optimistic UI updates for deletion. Handle navigation after successful deletion (redirect to events list). Consider soft deletion vs. permanent deletion based on requirements.",
             "status": "pending",
             "testStrategy": ""
@@ -326,11 +274,7 @@
             "id": 5,
             "title": "Implement Real-time Updates",
             "description": "Add real-time data synchronization for collaborative editing",
-            "dependencies": [
-              1,
-              2,
-              3
-            ],
+            "dependencies": [1, 2, 3],
             "details": "Set up WebSocket or similar connection for real-time updates. Implement event listeners for external changes to event data. Create conflict resolution strategy for simultaneous edits. Add visual indicators for when another user is editing the event. Implement notification system for important changes. Ensure graceful degradation when real-time connection is unavailable.",
             "status": "pending",
             "testStrategy": ""
@@ -344,10 +288,7 @@
         "details": "Create PublicSchedulePage component accessible without authentication. Fetch event details using the event slug parameter. Display event title, description, and duration. Create a date picker component for selecting booking date. Filter available dates based on day of week availability. Display available time slots for the selected date. Implement time slot selection. Create booking form with email input. Style components using Shadcn UI and TailwindCSS. Make page responsive for mobile devices. Add loading and error states.",
         "testStrategy": "Test page rendering with valid and invalid event slugs. Verify date picker shows only valid dates. Test time slot filtering based on availabilities. Verify time slot selection works correctly. Test form validation for email. Check responsive behavior on different screen sizes. Test error handling for unavailable events.",
         "priority": "high",
-        "dependencies": [
-          3,
-          4
-        ],
+        "dependencies": [3, 4],
         "status": "pending",
         "subtasks": []
       },
@@ -358,9 +299,7 @@
         "details": "Create a Supabase Edge Function for conflict checking. Implement function to check if selected time slot overlaps with existing bookings. Create booking submission handler in the PublicSchedulePage. Add validation to ensure the time slot is still available before submission. Implement optimistic UI updates for better user experience. Handle error cases for conflict, network issues, etc. Store booking information in the event_bookings table. Add loading state during submission. Provide clear feedback on successful booking or conflicts.",
         "testStrategy": "Test booking submission with valid and invalid data. Verify conflict checking prevents double bookings. Test edge cases like simultaneous bookings. Check error handling for various failure scenarios. Verify correct data is saved to the database. Test the UI feedback for different states.",
         "priority": "high",
-        "dependencies": [
-          8
-        ],
+        "dependencies": [8],
         "status": "pending",
         "subtasks": [
           {
@@ -376,9 +315,7 @@
             "id": 2,
             "title": "Implement Conflict Detection Algorithm",
             "description": "Design and implement an algorithm that detects scheduling conflicts efficiently.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Create a robust algorithm that identifies overlapping time slots, resource constraints, and availability issues. Include logic for handling different time zones, recurring bookings, and partial overlaps. The algorithm should be optimized to minimize database reads while maintaining accuracy.",
             "status": "pending",
             "testStrategy": ""
@@ -387,10 +324,7 @@
             "id": 3,
             "title": "Develop Submission Handler with Race Condition Protection",
             "description": "Create a submission handler that processes validated bookings and protects against race conditions.",
-            "dependencies": [
-              1,
-              2
-            ],
+            "dependencies": [1, 2],
             "details": "Implement a handler that processes bookings after conflict validation. Use database transactions or optimistic concurrency control to prevent race conditions when multiple users attempt to book the same slot simultaneously. Include retry logic and proper logging for debugging concurrent access issues.",
             "status": "pending",
             "testStrategy": ""
@@ -399,9 +333,7 @@
             "id": 4,
             "title": "Implement Optimistic UI Updates",
             "description": "Add client-side optimistic UI updates to provide immediate feedback while the booking is being processed.",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement a state management solution that updates the UI optimistically before server confirmation. Design a system to track pending bookings and reconcile the UI state when server responses are received. Include visual indicators for pending, confirmed, and failed bookings.",
             "status": "pending",
             "testStrategy": ""
@@ -410,10 +342,7 @@
             "id": 5,
             "title": "Create Comprehensive Error Handling System",
             "description": "Develop a robust error handling system for the booking process that provides clear feedback to users.",
-            "dependencies": [
-              3,
-              4
-            ],
+            "dependencies": [3, 4],
             "details": "Implement error handling for various failure scenarios including validation errors, conflicts, network issues, and server errors. Create user-friendly error messages that guide users toward resolution. Develop a recovery mechanism for failed bookings and implement proper error logging for debugging.",
             "status": "pending",
             "testStrategy": ""
@@ -427,9 +356,7 @@
         "details": "Create a Supabase Edge Function for sending email notifications. Integrate with email service like Resend.com or use Supabase's email functionality. Implement HTML email templates for booking confirmations. Create trigger to send emails when a new booking is created. Include event details, date, and time in the email. Add cancellation link in the email (optional). Set up environment variables for email service API keys. Handle email sending errors gracefully. Add email customization options for event creators.",
         "testStrategy": "Test email sending functionality with valid bookings. Verify email content includes correct booking details. Check error handling for email sending failures. Test email template rendering in different email clients. Verify trigger works correctly when bookings are created.",
         "priority": "medium",
-        "dependencies": [
-          9
-        ],
+        "dependencies": [9],
         "status": "pending",
         "subtasks": [
           {
@@ -445,9 +372,7 @@
             "id": 2,
             "title": "Integrate Modern Email Service API",
             "description": "Select and integrate a modern email service provider (SendGrid, Resend, Mailgun, etc.) for reliable email delivery",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Research and select the most appropriate modern email service for confirmation emails. Set up API authentication and rate limiting. Implement retry logic for failed email sending attempts. Create a service abstraction layer to make provider changes easy in the future.",
             "status": "pending",
             "testStrategy": ""
@@ -456,9 +381,7 @@
             "id": 3,
             "title": "Design and Create Email Templates",
             "description": "Create responsive, branded email templates for confirmation messages",
-            "dependencies": [
-              2
-            ],
+            "dependencies": [2],
             "details": "Design mobile-friendly email templates that work across all major email clients. Implement dynamic content placeholders for personalization. Create both HTML and plain text versions for maximum compatibility. Set up proper template versioning and storage system.",
             "status": "pending",
             "testStrategy": ""
@@ -467,9 +390,7 @@
             "id": 4,
             "title": "Implement Email Trigger System",
             "description": "Create the system that triggers confirmation emails based on specific user actions",
-            "dependencies": [
-              3
-            ],
+            "dependencies": [3],
             "details": "Build event listeners for user registration, email changes, or other actions requiring confirmation. Implement unique token generation and validation for confirmation links. Add analytics tracking to monitor email delivery and open rates. Create comprehensive testing suite for the entire email confirmation flow.",
             "status": "pending",
             "testStrategy": ""
@@ -483,10 +404,7 @@
         "details": "Research and select a time zone handling library (date-fns-tz or similar). Update database schema to store time zone information if needed. Implement time zone detection on the client side. Display time slots in the user's local time zone. Convert times to UTC when storing in the database. Update booking form to include time zone information. Add clear time zone indicators in the UI. Handle daylight saving time transitions correctly. Update email templates to show time in both local and event creator's time zones.",
         "testStrategy": "Test time conversion accuracy between different time zones. Verify correct time display in various time zones. Test daylight saving time edge cases. Verify time zone information is stored correctly. Test booking creation across different time zones. Check email notifications show correct times.",
         "priority": "medium",
-        "dependencies": [
-          8,
-          9
-        ],
+        "dependencies": [8, 9],
         "status": "pending",
         "subtasks": [
           {
@@ -502,9 +420,7 @@
             "id": 2,
             "title": "Update database schema for time zone storage",
             "description": "Modify database schema to store time zone information alongside timestamps",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Alter database tables to store user time zone preferences and UTC timestamps for all date/time fields. Create migration scripts for the schema changes. Add indices for efficient querying of time-based data. Ensure backward compatibility with existing data by converting all timestamps to UTC during migration.",
             "status": "pending",
             "testStrategy": ""
@@ -513,9 +429,7 @@
             "id": 3,
             "title": "Implement client-side time zone detection",
             "description": "Create mechanism to automatically detect user's time zone in the client application",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement JavaScript logic to detect the user's local time zone using browser APIs. Create a user preference option to override automatic detection. Build a UI component for manual time zone selection with a searchable dropdown of all time zones. Ensure detection runs on initial load and store preference in user profile.",
             "status": "pending",
             "testStrategy": ""
@@ -524,10 +438,7 @@
             "id": 4,
             "title": "Create time conversion utility functions",
             "description": "Develop reusable utility functions for time zone conversions throughout the application",
-            "dependencies": [
-              1,
-              2
-            ],
+            "dependencies": [1, 2],
             "details": "Create a comprehensive set of utility functions for converting times between UTC and user's local time zone. Implement functions for formatting dates/times according to user locale preferences. Handle edge cases like daylight saving time transitions, invalid dates, and ambiguous times. Write thorough unit tests covering all conversion scenarios.",
             "status": "pending",
             "testStrategy": ""
@@ -536,10 +447,7 @@
             "id": 5,
             "title": "Update UI components to display localized times",
             "description": "Modify UI components to display dates and times in the user's local time zone",
-            "dependencies": [
-              3,
-              4
-            ],
+            "dependencies": [3, 4],
             "details": "Update all date/time displays in the UI to use the time conversion utilities. Add visual indicators showing which time zone is being displayed. Implement consistent formatting across the application. Create hover tooltips showing alternative time zone representations where appropriate. Ensure all time inputs clearly indicate expected time zone.",
             "status": "pending",
             "testStrategy": ""
@@ -548,9 +456,7 @@
             "id": 6,
             "title": "Modify email templates for time zone awareness",
             "description": "Update email notifications to include time zone information for clarity",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Modify all email templates containing date/time information to clearly indicate the time zone. Include both the user's local time and UTC time for important events. Create a standardized format for displaying times in emails. Update the email generation system to incorporate the time conversion utilities. Test emails in various email clients for proper formatting.",
             "status": "pending",
             "testStrategy": ""
@@ -564,10 +470,7 @@
         "details": "Extend the event_availabilities table to support more complex scheduling patterns. Implement buffer time settings between meetings. Add functionality for creating availability exceptions (like holidays or specific days off). Create UI components for managing these enhanced availability options. Update the conflict checking logic to respect buffer times and exceptions. Implement batch operations for updating multiple availabilities. Add visual calendar view for managing availabilities. Enhance the public scheduling page to respect these new availability rules.",
         "testStrategy": "Test buffer time enforcement between bookings. Verify exceptions correctly block out time slots. Test recurring availability patterns over multiple weeks. Check calendar view displays availabilities correctly. Verify public page respects all availability rules. Test edge cases like availability spanning midnight.",
         "priority": "medium",
-        "dependencies": [
-          6,
-          7
-        ],
+        "dependencies": [6, 7],
         "status": "pending",
         "subtasks": []
       },
@@ -578,10 +481,8 @@
         "details": "Install testing dependencies: `npm install -D vitest @testing-library/react @testing-library/user-event @testing-library/jest-dom jsdom`. Configure Vitest with jsdom for component testing. Create setup file for testing library configuration. Write unit tests for utility functions and hooks. Create component tests for form components, booking flow, and authentication. Implement integration tests for critical user flows. Mock Supabase client for testing. Create test fixtures for common data patterns. Set up CI configuration for running tests automatically. Aim for good test coverage on critical functionality as specified in the PRD.",
         "testStrategy": "Run tests with coverage reporting to ensure required areas are covered. Verify all critical user flows have integration tests. Check that component tests use proper testing library practices. Test that mocking works correctly for Supabase calls. Ensure tests are maintainable and not brittle.",
         "priority": "medium",
-        "dependencies": [
-          1
-        ],
-        "status": "pending",
+        "dependencies": [1],
+        "status": "done",
         "subtasks": [
           {
             "id": 1,
@@ -596,20 +497,16 @@
             "id": 2,
             "title": "Implement Utility Function Tests",
             "description": "Write unit tests for utility functions, date helpers, color utilities, and other pure functions",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Create comprehensive unit tests for utility functions in utils/, date manipulation functions, color palette utilities, and any helper functions. Focus on edge cases and input validation.",
-            "status": "pending",
+            "status": "cancelled",
             "testStrategy": ""
           },
           {
             "id": 3,
             "title": "Create Component Tests with Mocks",
             "description": "Write tests for React components with proper mocking of Supabase, navigation, and other dependencies",
-            "dependencies": [
-              1
-            ],
+            "dependencies": [1],
             "details": "Implement tests for key components like authentication screens, schedule components, and UI elements. Set up mocks for Supabase client, React Navigation, and other external dependencies.",
             "status": "pending",
             "testStrategy": ""
@@ -618,23 +515,18 @@
             "id": 4,
             "title": "Implement Integration Tests",
             "description": "Create integration tests for authentication flow, data persistence, and component interactions",
-            "dependencies": [
-              2,
-              3
-            ],
+            "dependencies": [2, 3],
             "details": "Write integration tests that verify end-to-end functionality like user authentication, schedule creation/modification, and data synchronization. Test component interactions and state management.",
-            "status": "pending",
+            "status": "cancelled",
             "testStrategy": ""
           },
           {
             "id": 5,
             "title": "Configure CI/CD Test Pipeline",
             "description": "Set up automated testing in CI/CD pipeline with proper test coverage reporting",
-            "dependencies": [
-              4
-            ],
+            "dependencies": [4],
             "details": "Configure GitHub Actions or similar CI service to run tests on pull requests and pushes. Set up test coverage reporting, add badges, and ensure tests run in multiple environments if applicable.",
-            "status": "pending",
+            "status": "cancelled",
             "testStrategy": ""
           }
         ]
@@ -646,11 +538,7 @@
         "details": "Implement code splitting using React Router's lazy loading. Add Suspense boundaries with appropriate loading states. Optimize Supabase queries with proper indexes and filters. Implement client-side caching for frequently accessed data. Use React Query or SWR for data fetching and caching. Apply memoization for expensive calculations. Optimize images and assets for faster loading. Implement virtualization for long lists if needed. Add performance monitoring. Use proper keys for efficient list rendering.",
         "testStrategy": "Measure performance metrics before and after optimization. Use Lighthouse or similar tools to evaluate performance improvements. Test application behavior under slow network conditions. Verify that caching works correctly and stale data is properly invalidated. Check that lazy loading improves initial load time.",
         "priority": "low",
-        "dependencies": [
-          5,
-          8,
-          9
-        ],
+        "dependencies": [5, 8, 9],
         "status": "pending",
         "subtasks": []
       },
@@ -661,20 +549,14 @@
         "details": "Set up GitHub repository with proper configuration. Configure Vercel project for deployment. Set up environment variables in Vercel. Configure production Supabase project. Create deployment workflow with testing checks. Write documentation for local development setup. Document database schema and RLS policies. Create user guide for managing events and availabilities. Document API endpoints and edge functions. Set up monitoring and error tracking. Implement proper error boundaries in the application. Create a README with project overview and setup instructions.",
         "testStrategy": "Verify deployment works correctly in production environment. Test with production database settings. Check that authentication flows work in production. Verify Edge Functions are deployed and working. Test application on different browsers and devices to ensure compatibility.",
         "priority": "medium",
-        "dependencies": [
-          1,
-          2,
-          3,
-          13,
-          14
-        ],
+        "dependencies": [1, 2, 3, 13, 14],
         "status": "pending",
         "subtasks": []
       }
     ],
     "metadata": {
       "created": "2025-06-28T13:34:00.207Z",
-      "updated": "2025-06-28T13:36:05.867Z",
+      "updated": "2025-06-28T16:43:08.680Z",
       "description": "Tasks for master context"
     }
   }
