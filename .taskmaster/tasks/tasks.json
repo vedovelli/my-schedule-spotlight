@@ -571,7 +571,53 @@
         "status": "pending",
         "dependencies": [5, 9, 11, 12],
         "priority": "medium",
-        "subtasks": []
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Remove hardcoded API keys and implement environment variables",
+            "description": "Fix the vulnerability where the Supabase anonymous key is hardcoded in .env.local. Move all API keys to environment variables and implement proper secret management.",
+            "dependencies": [],
+            "details": "1. Create a secure .env handling system that doesn't expose keys in client-side code\n2. Move the VITE_SUPABASE_ANON_KEY from .env.local to a more secure location\n3. Update the supabase.ts file to use environment variables properly\n4. Implement a secure method for loading environment variables\n5. Add validation to ensure required environment variables are present\n6. Add documentation about environment variable requirements",
+            "status": "pending",
+            "testStrategy": "1. Verify the application works with properly configured environment variables\n2. Ensure API keys are not exposed in client-side code\n3. Confirm environment variables are properly validated on startup"
+          },
+          {
+            "id": 2,
+            "title": "Implement comprehensive server-side validation",
+            "description": "Add robust server-side validation for all user inputs using Zod validation in Supabase Edge Functions to prevent injection attacks and data manipulation.",
+            "dependencies": [],
+            "details": "1. Extend the existing client-side Zod schemas in validations/event-form.ts to the server-side\n2. Implement validation in all Supabase Edge Functions (event-bookings, event-types, event-availabilities)\n3. Add input sanitization to prevent SQL injection and XSS attacks\n4. Ensure all user inputs are properly validated before database operations\n5. Create standardized error responses for validation failures\n6. Add validation for email addresses in the booking and authentication flows",
+            "status": "pending",
+            "testStrategy": "1. Test validation with various malformed inputs\n2. Verify SQL injection attempts are blocked\n3. Test XSS attack vectors\n4. Confirm proper error handling for invalid inputs"
+          },
+          {
+            "id": 3,
+            "title": "Enable email confirmation for user registration",
+            "description": "Implement email confirmation workflow to verify user identity before account activation, preventing unauthorized account creation.",
+            "dependencies": [1],
+            "details": "1. Update the auth.signUp function in src/lib/supabase.ts to require email confirmation\n2. Modify the SignUp.tsx component to inform users about email verification\n3. Create an email verification page/component\n4. Update the AuthProvider in use-auth.tsx to handle email verification states\n5. Add proper error handling for email verification failures\n6. Prevent login attempts for unverified accounts",
+            "status": "pending",
+            "testStrategy": "1. Test the complete registration and email verification flow\n2. Verify unverified accounts cannot access protected resources\n3. Test expired verification links\n4. Ensure proper user feedback throughout the verification process"
+          },
+          {
+            "id": 4,
+            "title": "Fix booking conflict logic in Supabase Edge Functions",
+            "description": "Review and fix the event booking conflict detection logic in the Supabase Edge Function to prevent race conditions and double bookings.",
+            "dependencies": [2],
+            "details": "1. Improve the conflict detection logic in supabase/functions/event-bookings/index.ts\n2. Implement proper timestamp comparison for booking conflicts\n3. Add transaction support to prevent race conditions during booking creation\n4. Update the time slot availability checking in the API\n5. Fix the conflict checking in the isTimeSlotAvailable helper function in api.ts\n6. Add additional validation to prevent bookings in the past",
+            "status": "pending",
+            "testStrategy": "1. Test concurrent booking attempts for the same time slot\n2. Verify edge cases with bookings at slot boundaries\n3. Test different timezone scenarios\n4. Confirm that double bookings are prevented"
+          },
+          {
+            "id": 5,
+            "title": "Implement restrictive CORS and security headers",
+            "description": "Implement restrictive CORS policy that only allows necessary origins and add security headers to prevent common web vulnerabilities.",
+            "dependencies": [],
+            "details": "1. Update the CORS configuration in supabase/functions/_shared/cors.ts to use specific origins instead of wildcard '*'\n2. Implement Content Security Policy (CSP) headers\n3. Add X-Content-Type-Options, X-Frame-Options, and X-XSS-Protection headers\n4. Implement rate limiting for API endpoints to prevent abuse\n5. Add proper error handling that doesn't expose sensitive information\n6. Update the API response structure to be consistent and secure",
+            "status": "pending",
+            "testStrategy": "1. Test CORS with allowed and disallowed origins\n2. Verify security headers are properly set\n3. Test rate limiting by making rapid successive requests\n4. Ensure error messages don't leak sensitive information"
+          }
+        ]
       }
     ],
     "metadata": {
