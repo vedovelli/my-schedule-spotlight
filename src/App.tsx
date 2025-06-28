@@ -5,6 +5,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
+import CreateEvent from "./pages/CreateEvent";
+import BookingEvent from "./pages/BookingEvent";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import RecoverPassword from "./pages/RecoverPassword";
@@ -20,6 +22,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/create-event" element={<CreateEvent />} />
+          <Route path="/booking/:eventId" element={<BookingEvent />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/recover-password" element={<RecoverPassword />} />

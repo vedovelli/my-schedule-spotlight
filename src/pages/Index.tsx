@@ -1,11 +1,10 @@
 
 import { useState } from 'react';
-import { Calendar, Clock, Plus, Share2, User } from 'lucide-react';
+import { Calendar, Clock, Plus, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import EventCreator from '@/components/EventCreator';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import EventList from '@/components/EventList';
-import BookingPage from '@/components/BookingPage';
 
 export interface EventType {
   id: string;
@@ -32,9 +31,7 @@ export interface EventType {
 }
 
 const Index = () => {
-  const [currentView, setCurrentView] = useState<'dashboard' | 'create' | 'booking'>('dashboard');
-  const [selectedEventId, setSelectedEventId] = useState<string>('');
-  const [events, setEvents] = useState<EventType[]>([
+  const [events] = useState<EventType[]>([
     {
       id: '1',
       title: 'Consulta Rápida',
@@ -73,45 +70,9 @@ const Index = () => {
     }
   ]);
 
-  const handleCreateEvent = (newEvent: Omit<EventType, 'id'>) => {
-    const event: EventType = {
-      ...newEvent,
-      id: Date.now().toString()
-    };
-    setEvents([...events, event]);
-    setCurrentView('dashboard');
-  };
-
   const handleBookEvent = (eventId: string) => {
-    setSelectedEventId(eventId);
-    setCurrentView('booking');
+    window.location.href = `/booking/${eventId}`;
   };
-
-  const selectedEvent = events.find(e => e.id === selectedEventId);
-
-  if (currentView === 'create') {
-    return (
-      <div className="min-h-screen bg-background">
-        <div className="container max-w-4xl mx-auto px-4 py-8">
-          <EventCreator 
-            onSave={handleCreateEvent}
-            onCancel={() => setCurrentView('dashboard')}
-          />
-        </div>
-      </div>
-    );
-  }
-
-  if (currentView === 'booking' && selectedEvent) {
-    return (
-      <div className="min-h-screen bg-background">
-        <BookingPage 
-          event={selectedEvent}
-          onBack={() => setCurrentView('dashboard')}
-        />
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-background">
@@ -127,10 +88,12 @@ const Index = () => {
               <p className="text-muted-foreground">Gerencie seus agendamentos pessoais</p>
             </div>
           </div>
-          <Button onClick={() => setCurrentView('create')} className="bg-primary hover:bg-primary/90">
-            <Plus className="w-4 h-4 mr-2" />
-            Novo Evento
-          </Button>
+          <Link to="/create-event">
+            <Button className="bg-primary hover:bg-primary/90">
+              <Plus className="w-4 h-4 mr-2" />
+              Novo Evento
+            </Button>
+          </Link>
         </div>
 
         {/* Stats Cards */}
@@ -185,10 +148,12 @@ const Index = () => {
                 <p className="text-muted-foreground text-center mb-4">
                   Comece criando seu primeiro evento para começar a receber agendamentos
                 </p>
-                <Button onClick={() => setCurrentView('create')} className="bg-primary hover:bg-primary/90">
-                  <Plus className="w-4 h-4 mr-2" />
-                  Criar Primeiro Evento
-                </Button>
+                <Link to="/create-event">
+                  <Button className="bg-primary hover:bg-primary/90">
+                    <Plus className="w-4 h-4 mr-2" />
+                    Criar Primeiro Evento
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           ) : (
