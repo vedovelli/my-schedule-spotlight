@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -26,16 +25,37 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
     const dates = [];
     const today = new Date();
     
+    const dayMapping = {
+      0: 'sunday',
+      1: 'monday', 
+      2: 'tuesday',
+      3: 'wednesday',
+      4: 'thursday',
+      5: 'friday',
+      6: 'saturday'
+    };
+    
     for (let i = 1; i <= 14; i++) {
       const date = new Date(today);
       date.setDate(date.getDate() + i);
       
       const dayOfWeek = date.getDay();
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      const isWeekday = !isWeekend;
+      const dayKey = dayMapping[dayOfWeek as keyof typeof dayMapping];
       
-      if ((isWeekday && event.availability.weekdays.enabled) || 
-          (isWeekend && event.availability.weekends.enabled)) {
+      // Check if this specific day is enabled using detailed config if available
+      let isDayEnabled = false;
+      
+      if (event.availability.detailed && event.availability.detailed[dayKey]) {
+        isDayEnabled = event.availability.detailed[dayKey].enabled;
+      } else {
+        // Fallback to old logic
+        const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
+        const isWeekday = !isWeekend;
+        isDayEnabled = (isWeekday && event.availability.weekdays.enabled) || 
+                      (isWeekend && event.availability.weekends.enabled);
+      }
+      
+      if (isDayEnabled) {
         dates.push({
           date: date.toISOString().split('T')[0],
           display: date.toLocaleDateString('pt-BR', { 
@@ -43,7 +63,8 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
             day: '2-digit', 
             month: '2-digit' 
           }),
-          isWeekend
+          dayKey,
+          isWeekend: dayOfWeek === 0 || dayOfWeek === 6
         });
       }
     }
@@ -51,8 +72,17 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
     return dates;
   };
 
-  const generateAvailableTimes = (isWeekend: boolean) => {
-    const availability = isWeekend ? event.availability.weekends : event.availability.weekdays;
+  const generateAvailableTimes = (dayKey: string, isWeekend: boolean) => {
+    let availability;
+    
+    // Use detailed config if available
+    if (event.availability.detailed && event.availability.detailed[dayKey]) {
+      availability = event.availability.detailed[dayKey];
+    } else {
+      // Fallback to old logic
+      availability = isWeekend ? event.availability.weekends : event.availability.weekdays;
+    }
+    
     if (!availability.enabled) return [];
 
     const times = [];
@@ -76,7 +106,7 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
 
   const availableDates = generateAvailableDates();
   const selectedDateObj = availableDates.find(d => d.date === selectedDate);
-  const availableTimes = selectedDateObj ? generateAvailableTimes(selectedDateObj.isWeekend) : [];
+  const availableTimes = selectedDateObj ? generateAvailableTimes(selectedDateObj.dayKey, selectedDateObj.isWeekend) : [];
 
   const handleBooking = (e: React.FormEvent) => {
     e.preventDefault();

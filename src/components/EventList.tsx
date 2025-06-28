@@ -12,6 +12,26 @@ interface EventListProps {
 
 const EventList = ({ events, onBookEvent }: EventListProps) => {
   const formatAvailability = (event: EventType) => {
+    if (event.availability.detailed) {
+      const enabledDays = Object.entries(event.availability.detailed)
+        .filter(([, config]) => config.enabled)
+        .map(([day, config]) => {
+          const dayNames = {
+            monday: 'Seg',
+            tuesday: 'Ter', 
+            wednesday: 'Qua',
+            thursday: 'Qui',
+            friday: 'Sex',
+            saturday: 'Sáb',
+            sunday: 'Dom'
+          };
+          return `${dayNames[day as keyof typeof dayNames]}: ${config.startTime}-${config.endTime}`;
+        });
+      
+      return enabledDays.join(' • ');
+    }
+    
+    // Fallback to old format
     const availability = [];
     
     if (event.availability.weekdays.enabled) {

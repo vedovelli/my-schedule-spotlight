@@ -23,6 +23,11 @@ export interface EventType {
       startTime: string;
       endTime: string;
     };
+    detailed?: Record<string, {
+      enabled: boolean;
+      startTime: string;
+      endTime: string;
+    }>;
   };
 }
 
