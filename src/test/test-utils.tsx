@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { ReactElement } from "react";
 import { RenderOptions, act, render } from "@testing-library/react";
 
+import { AuthProvider } from "@/hooks/use-auth";
 import { BrowserRouter } from "react-router-dom";
 import { vi } from "vitest";
 
@@ -26,7 +27,7 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
   return (
     <BrowserRouter>
       <QueryClientProvider client={testQueryClient}>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </QueryClientProvider>
     </BrowserRouter>
   );
