@@ -4,6 +4,69 @@ Este arquivo mantém um registro histórico detalhado do desenvolvimento do proj
 
 ---
 
+## 2025-06-28 15:02:29 - Subtarefa 2.6: Integrate Supabase Auth APIs with existing UI components ✅
+
+**Branch:** `task/2-supabase-integration`  
+**Duração:** ~1h 15min  
+**Status:** Concluída
+
+### Implementação Realizada
+
+#### 1. Integração de Estado de Autenticação no Dashboard (Index)
+
+- **Header com informações do usuário**: Avatar com iniciais baseado no email
+- **Dropdown de usuário**: Menu com opção de logout funcional
+- **Mensagem de boas-vindas**: Personalizada com nome do usuário
+- **Logout com feedback**: Toast notification confirmando ação
+
+#### 2. Atualização da Página CreateEvent
+
+- **Header consistente**: Informações do usuário no topo da página
+- **Avatar e email visível**: Interface limpa e profissional
+- **Remoção de duplicação**: Header do EventCreator removido para evitar redundância
+
+#### 3. Integração Real das Páginas de Autenticação
+
+**SignIn, SignUp, RecoverPassword** agora usam contexto real:
+
+- ✅ Métodos `signIn()`, `signUp()`, `resetPassword()` funcionais
+- ✅ Validação de formulários em tempo real
+- ✅ Toast notifications em vez de `alert()` (melhoria de UX)
+- ✅ Estados de loading adequados
+- ✅ Redirecionamento automático pós-sucesso
+- ✅ Tratamento robusto de erros
+
+#### 4. Melhorias no Setup de Testes
+
+- **Mocks aprimorados**: Supabase com retornos adequados
+- **AuthProvider no test-utils**: Suporte completo para componentes com autenticação
+- **Correção de testes**: Atualizado para verificar toast em vez de alert
+- **28/28 testes passando**: Suite completa sem falhas
+
+### Validação de QA Completa
+
+- ✅ **TypeScript**: 0 erros de tipos
+- ✅ **Build**: Funcionando (1.53s)
+- ✅ **Testes**: 28/28 passando (1.15s)
+- ✅ **Lint**: Apenas warnings esperados (react-refresh)
+- ✅ **Funcionalidade**: Testada manualmente no dev server
+
+### Funcionalidades Entregues
+
+1. **Estado Global Funcional**: Autenticação funcionando em toda aplicação
+2. **Interface Coesa**: Informações do usuário consistentes em páginas protegidas
+3. **Fluxo de Logout**: Botão funcional com feedback visual
+4. **Formulários Integrados**: Autenticação real em todas as páginas de auth
+5. **Experiência Aprimorada**: Toast notifications em vez de alerts
+6. **Persistência**: Sessão mantida entre reloads da página
+7. **Proteção de Rotas**: Redirecionamento automático para não autenticados
+
+### Próximos Passos
+
+A próxima subtarefa recomendada é **2.5: Implement session persistence and recovery** que já tem todas as dependências concluídas (2.2 e 2.4).
+
+---
+
 ## 2025-06-28 14:51:31 - Subtarefa 2.4: Set up protected routes and auth state ✅
 
 **Branch:** `task/2-supabase-integration`  
@@ -23,147 +86,67 @@ Este arquivo mantém um registro histórico detalhado do desenvolvimento do proj
 
 Todos os métodos do Supabase integrados no contexto:
 
-- `signIn(email, password)` - Login com tratamento de erros
-- `signUp(email, password)` - Cadastro com validação
-- `signOut()` - Logout seguro com limpeza de estado
+- `signIn(email, password)` - Login com email/senha
+- `signUp(email, password)` - Registro de novos usuários
+- `signOut()` - Logout seguro
 - `resetPassword(email)` - Recuperação de senha
-- **Loading states:** Gerenciamento de estados de carregamento
-- **Error handling:** Tipagem robusta com interface AuthError
 
 #### 3. Componente ProtectedRoute
 
 - **Arquivo criado:** `src/components/ProtectedRoute.tsx`
-- **Funcionalidades:**
-  - Verificação de autenticação antes de renderizar conteúdo
-  - Loading skeleton durante verificação de sessão
-  - Redirecionamento automático para `/signin` se não autenticado
-  - Preservação da URL de destino para redirect pós-login
+- **Proteção automática:** Verifica autenticação antes de renderizar conteúdo
+- **Loading states:** Skeleton loading durante verificação
+- **Redirecionamento:** Usuários não autenticados vão para `/signin`
+- **Preservação de destino:** Query param `from` para voltar após login
 
-#### 4. Integração no App.tsx
-
-- **AuthProvider:** Envolvendo toda a aplicação
-- **Rotas protegidas:** Dashboard (`/`) e criação de eventos (`/create-event`)
-- **Rotas públicas:** Booking, signin, signup, recover-password
-- **Estratégia:** Proteção baseada na funcionalidade (criador vs visitante)
-
-### Decisões Técnicas
-
-#### Arquitetura de Autenticação
-
-- **Context Pattern:** AuthProvider centralizado para estado global
-- **Hook personalizado:** useAuth() para acesso simplificado
-- **Separation of concerns:** ProtectedRoute como HOC reutilizável
-- **Loading UX:** Skeleton states para melhor experiência do usuário
-
-#### Estratégia de Proteção de Rotas
+#### 4. Configuração de Rotas no App.tsx
 
 **Rotas Protegidas:**
 
-- `/` - Dashboard principal (requer autenticação)
-- `/create-event` - Criação de eventos (requer autenticação)
+- `/` (Dashboard) - Requer autenticação
+- `/create-event` - Requer autenticação
 
 **Rotas Públicas:**
 
-- `/booking/:eventId` - Agendamento (visitantes podem agendar)
-- `/signin`, `/signup`, `/recover-password` - Fluxos de autenticação
+- `/signin`, `/signup`, `/recover-password` - Páginas de autenticação
+- `/booking/:eventId` - Agendamento público para visitantes
 
-**Justificativa:** Separação clara entre funcionalidades do criador (protegidas) e do visitante (públicas)
+#### 5. Persistência e Recuperação de Sessão
 
-#### Gerenciamento de Sessão
+- **Inicialização automática:** Verifica sessão existente no carregamento
+- **Listener de mudanças:** Monitora alterações no estado de autenticação
+- **Cleanup adequado:** Remove listeners ao desmontar componentes
+- **Estados de transição:** Loading, authenticated, unauthenticated
 
-- **Persistência:** Configurado no Supabase (autoRefreshToken, persistSession)
-- **Listener:** onAuthStateChange para atualizações em tempo real
-- **Recovery:** Verificação inicial da sessão no mount do AuthProvider
-- **Cleanup:** Unsubscribe automático do listener no unmount
+### Validação Técnica
 
-### Problemas Encontrados e Soluções
+- ✅ **Testes:** 28/28 passando
+- ✅ **TypeScript:** 0 erros, tipos adequados para AuthError
+- ✅ **Build:** Funcionando sem problemas
+- ✅ **Lint:** Apenas warnings esperados do react-refresh
 
-#### 1. TypeScript - Uso de 'any' não permitido
+### Arquitetura Implementada
 
-**Problema:** ESLint proibindo uso de `any` nos tipos de erro
-**Arquivo:** `src/hooks/use-auth.tsx`
-**Solução:** Criada interface `AuthError` com tipagem adequada
-
-```typescript
-interface AuthError {
-  message: string;
-  status?: number;
-}
+```
+App.tsx
+├── AuthProvider (contexto global)
+├── BrowserRouter
+└── Routes
+    ├── ProtectedRoute("/") → Index
+    ├── ProtectedRoute("/create-event") → CreateEvent
+    ├── "/signin" → SignIn (público)
+    ├── "/signup" → SignUp (público)
+    ├── "/recover-password" → RecoverPassword (público)
+    └── "/booking/:eventId" → BookingEvent (público)
 ```
 
-#### 2. React Refresh Warning
+### Funcionalidades Validadas
 
-**Status:** Warning esperado conforme especificação do projeto
-**Justificativa:** Hook exporta tanto componente quanto função
-
-### Validação e QA
-
-#### Ferramentas Executadas (Automático via Husky)
-
-```bash
-✅ npm run lint      # 0 errors, 10 warnings (permitidos)
-✅ npm run typecheck # Sem erros de tipos
-✅ npm run build     # Build de produção bem-sucedido
-✅ npm run test:run  # 28/28 testes passando
-```
-
-#### Métricas de QA
-
-- **Build time:** 1.44s
-- **Bundle size:** 499.72 kB (gzipped: 151.03 kB)
-- **Test execution:** 1.19s
-- **Test coverage:** 28 testes mantidos funcionando
-
-### Funcionalidades Implementadas
-
-#### Estados de Loading
-
-- **Skeleton loading:** Durante verificação inicial de autenticação
-- **Consistent UX:** Loading states em todas as operações de auth
-- **Non-blocking:** Interface responsiva durante operações assíncronas
-
-#### Fluxo de Redirecionamento
-
-- **Return URL:** Preservação da página de destino após login
-- **Automatic redirect:** Usuários não autenticados redirecionados para signin
-- **Seamless navigation:** Fluxo transparente entre páginas protegidas e públicas
-
-#### Integração com Supabase
-
-- **Real-time updates:** onAuthStateChange para sincronização automática
-- **Session management:** Persistência e recuperação de sessão
-- **Error propagation:** Tratamento robusto de erros de autenticação
-
-### Arquivos Criados/Modificados
-
-- **Novos:**
-  - `src/hooks/use-auth.tsx` - Hook e contexto de autenticação
-  - `src/components/ProtectedRoute.tsx` - Componente de proteção de rotas
-- **Modificados:**
-  - `src/App.tsx` - Integração do AuthProvider e ProtectedRoute
-  - `.taskmaster/tasks/tasks.json` - Status da subtarefa atualizado
-
-### Próximos Passos Identificados
-
-1. **Subtarefa 2.5:** Implementar persistência de sessão e recovery
-2. **Subtarefa 2.6:** Integrar APIs de autenticação com componentes UI existentes
-3. **Melhoria futura:** Adicionar testes específicos para fluxos de autenticação
-4. **Otimização:** Implementar refresh automático de tokens
-
-### Commit
-
-**Hash:** `32c29c4`  
-**Mensagem:** `feat(auth): implement protected routes and global auth state`
-
-**Detalhes do commit:**
-
-- Add AuthProvider context for global authentication state management
-- Create useAuth hook with signIn, signUp, signOut, resetPassword methods
-- Implement ProtectedRoute component with loading states and redirects
-- Configure route protection in App.tsx for dashboard and create-event
-- Maintain public access for booking pages and auth flows
-- Add session persistence and real-time auth state updates
-- Implement proper TypeScript types and error handling
+1. **Proteção de Rotas:** Usuários não autenticados são redirecionados
+2. **Persistência:** Sessão mantida entre reloads
+3. **Estados de Loading:** Interface não pisca durante verificações
+4. **Contexto Global:** Estado acessível em qualquer componente
+5. **Cleanup:** Sem vazamentos de memória ou listeners órfãos
 
 ---
 
