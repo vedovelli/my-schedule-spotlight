@@ -4,20 +4,20 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Eye, EyeOff, Lock, Mail } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+} from '@/components/ui/card';
+import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hooks/use-auth";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useAuth } from '@/hooks/use-auth';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,7 +27,7 @@ const SignIn = () => {
   const location = useLocation();
 
   // Get the intended destination from location state, default to dashboard
-  const from = location.state?.from || "/";
+  const from = location.state?.from || '/';
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,14 +38,14 @@ const SignIn = () => {
 
       if (error) {
         toast({
-          title: "Erro ao fazer login",
+          title: 'Erro ao fazer login',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         toast({
-          title: "Login realizado com sucesso!",
-          description: "Você foi conectado à sua conta.",
+          title: 'Login realizado com sucesso!',
+          description: 'Você foi conectado à sua conta.',
         });
 
         // Redirect to intended destination or dashboard
@@ -53,9 +53,9 @@ const SignIn = () => {
       }
     } catch (error) {
       toast({
-        title: "Erro inesperado",
-        description: "Ocorreu um erro ao tentar fazer login. Tente novamente.",
-        variant: "destructive",
+        title: 'Erro inesperado',
+        description: 'Ocorreu um erro ao tentar fazer login. Tente novamente.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -84,7 +84,7 @@ const SignIn = () => {
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   className="pl-10"
                   required
                   disabled={isLoading}
@@ -98,10 +98,10 @@ const SignIn = () => {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Sua senha"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   className="pl-10 pr-10"
                   required
                   disabled={isLoading}
@@ -131,7 +131,7 @@ const SignIn = () => {
               className="w-full"
               disabled={isLoading || !email || !password}
             >
-              {isLoading ? "Entrando..." : "Entrar"}
+              {isLoading ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
 

@@ -39,13 +39,13 @@ The Supabase client is initialized in `src/lib/supabase.ts` and provides:
 ### Core Client
 
 ```typescript
-import { supabase } from "@/lib/supabase";
+import { supabase } from '@/lib/supabase';
 ```
 
 ### Auth Helper Functions
 
 ```typescript
-import { auth } from "@/lib/supabase";
+import { auth } from '@/lib/supabase';
 
 // Available methods:
 await auth.signUp(email, password);

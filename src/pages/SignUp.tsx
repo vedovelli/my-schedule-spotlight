@@ -1,27 +1,27 @@
-import { Building, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
+import { Building, Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Link, useNavigate } from "react-router-dom";
+} from '@/components/ui/card';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useAuth } from "@/hooks/use-auth";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { useAuth } from '@/hooks/use-auth';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    password: "",
-    confirmPassword: "",
+    name: '',
+    email: '',
+    company: '',
+    password: '',
+    confirmPassword: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -32,7 +32,7 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
       [e.target.name]: e.target.value,
     }));
@@ -43,18 +43,18 @@ const SignUp = () => {
 
     if (formData.password !== formData.confirmPassword) {
       toast({
-        title: "Erro na confirmação",
-        description: "As senhas não coincidem. Verifique e tente novamente.",
-        variant: "destructive",
+        title: 'Erro na confirmação',
+        description: 'As senhas não coincidem. Verifique e tente novamente.',
+        variant: 'destructive',
       });
       return;
     }
 
     if (formData.password.length < 8) {
       toast({
-        title: "Senha muito curta",
-        description: "A senha deve ter pelo menos 8 caracteres.",
-        variant: "destructive",
+        title: 'Senha muito curta',
+        description: 'A senha deve ter pelo menos 8 caracteres.',
+        variant: 'destructive',
       });
       return;
     }
@@ -66,25 +66,25 @@ const SignUp = () => {
 
       if (error) {
         toast({
-          title: "Erro ao criar conta",
+          title: 'Erro ao criar conta',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         toast({
-          title: "Conta criada com sucesso!",
-          description: "Verifique seu email para confirmar sua conta.",
+          title: 'Conta criada com sucesso!',
+          description: 'Verifique seu email para confirmar sua conta.',
         });
 
         // Redirect to signin page
-        navigate("/signin");
+        navigate('/signin');
       }
     } catch (error) {
       toast({
-        title: "Erro inesperado",
+        title: 'Erro inesperado',
         description:
-          "Ocorreu um erro ao tentar criar sua conta. Tente novamente.",
-        variant: "destructive",
+          'Ocorreu um erro ao tentar criar sua conta. Tente novamente.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -174,7 +174,7 @@ const SignUp = () => {
                 <Input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Mínimo 8 caracteres"
                   value={formData.password}
                   onChange={handleChange}
@@ -201,7 +201,7 @@ const SignUp = () => {
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirme sua senha"
                   value={formData.confirmPassword}
                   onChange={handleChange}
@@ -231,7 +231,7 @@ const SignUp = () => {
               className="w-full"
               disabled={isLoading || !isFormValid}
             >
-              {isLoading ? "Criando conta..." : "Criar conta"}
+              {isLoading ? 'Criando conta...' : 'Criar conta'}
             </Button>
           </form>
 

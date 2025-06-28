@@ -1,29 +1,29 @@
-import { ArrowLeft, User } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { ArrowLeft, User } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
-import { Button } from "@/components/ui/button";
-import EventCreator from "@/components/EventCreator";
-import { EventType } from "./Index";
-import { useAuth } from "@/hooks/use-auth";
-import { useNavigate } from "react-router-dom";
+import { Button } from '@/components/ui/button';
+import EventCreator from '@/components/EventCreator';
+import { EventType } from './Index';
+import { useAuth } from '@/hooks/use-auth';
+import { useNavigate } from 'react-router-dom';
 
 const CreateEvent = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
-  const handleCreateEvent = (newEvent: Omit<EventType, "id">) => {
+  const handleCreateEvent = (newEvent: Omit<EventType, 'id'>) => {
     // Aqui você salvaria o evento (por exemplo, em um contexto global ou API)
-    console.log("Novo evento criado:", newEvent);
-    navigate("/");
+    console.log('Novo evento criado:', newEvent);
+    navigate('/');
   };
 
   const handleCancel = () => {
-    navigate("/");
+    navigate('/');
   };
 
   const getUserInitials = (email?: string) => {
-    if (!email) return "U";
-    const parts = email.split("@")[0].split(".");
+    if (!email) return 'U';
+    const parts = email.split('@')[0].split('.');
     if (parts.length >= 2) {
       return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
     }
@@ -31,8 +31,8 @@ const CreateEvent = () => {
   };
 
   const getUserDisplayName = (email?: string) => {
-    if (!email) return "Usuário";
-    const username = email.split("@")[0];
+    if (!email) return 'Usuário';
+    const username = email.split('@')[0];
     return username.charAt(0).toUpperCase() + username.slice(1);
   };
 

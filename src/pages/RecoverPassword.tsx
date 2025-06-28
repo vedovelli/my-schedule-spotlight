@@ -1,22 +1,22 @@
-import { ArrowLeft, CheckCircle, Mail } from "lucide-react";
+import { ArrowLeft, CheckCircle, Mail } from 'lucide-react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/use-auth";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/use-auth';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const RecoverPassword = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
@@ -32,24 +32,24 @@ const RecoverPassword = () => {
 
       if (error) {
         toast({
-          title: "Erro ao enviar email",
+          title: 'Erro ao enviar email',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         setEmailSent(true);
         toast({
-          title: "Email enviado!",
+          title: 'Email enviado!',
           description:
-            "Verifique sua caixa de entrada para as instruções de recuperação.",
+            'Verifique sua caixa de entrada para as instruções de recuperação.',
         });
       }
     } catch (error) {
       toast({
-        title: "Erro inesperado",
+        title: 'Erro inesperado',
         description:
-          "Ocorreu um erro ao tentar enviar o email. Tente novamente.",
-        variant: "destructive",
+          'Ocorreu um erro ao tentar enviar o email. Tente novamente.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -64,21 +64,21 @@ const RecoverPassword = () => {
 
       if (error) {
         toast({
-          title: "Erro ao reenviar email",
+          title: 'Erro ao reenviar email',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         toast({
-          title: "Email reenviado!",
-          description: "Verifique sua caixa de entrada novamente.",
+          title: 'Email reenviado!',
+          description: 'Verifique sua caixa de entrada novamente.',
         });
       }
     } catch (error) {
       toast({
-        title: "Erro inesperado",
-        description: "Ocorreu um erro ao tentar reenviar o email.",
-        variant: "destructive",
+        title: 'Erro inesperado',
+        description: 'Ocorreu um erro ao tentar reenviar o email.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -113,7 +113,7 @@ const RecoverPassword = () => {
                 className="w-full"
                 disabled={isLoading}
               >
-                {isLoading ? "Enviando..." : "Enviar novamente"}
+                {isLoading ? 'Enviando...' : 'Enviar novamente'}
               </Button>
 
               <Link to="/signin">
@@ -151,7 +151,7 @@ const RecoverPassword = () => {
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   className="pl-10"
                   required
                   disabled={isLoading}
@@ -164,7 +164,7 @@ const RecoverPassword = () => {
               className="w-full"
               disabled={isLoading || !email}
             >
-              {isLoading ? "Enviando..." : "Enviar instruções"}
+              {isLoading ? 'Enviando...' : 'Enviar instruções'}
             </Button>
           </form>
 

@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -6,7 +6,7 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error(
-    "Missing Supabase environment variables. Please check your .env file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set."
+    'Missing Supabase environment variables. Please check your .env file and ensure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set.'
   );
 }
 
@@ -68,16 +68,16 @@ const handleAuthOperation = async <T>(
 ): Promise<AuthResult<T>> => {
   try {
     const { data, error } = await operation();
-    return { 
-      data, 
-      error: error ? { message: error.message, status: error.status } : null, 
-      success: !error 
+    return {
+      data,
+      error: error ? { message: error.message, status: error.status } : null,
+      success: !error,
     };
   } catch (error) {
-    return { 
-      data: null, 
-      error: error as AuthError, 
-      success: false 
+    return {
+      data: null,
+      error: error as AuthError,
+      success: false,
     };
   }
 };

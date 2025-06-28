@@ -1,19 +1,19 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { AuthProvider } from "@/hooks/use-auth";
-import BookingEvent from "./pages/BookingEvent";
-import CreateEvent from "./pages/CreateEvent";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import ProtectedRoute from "@/components/ProtectedRoute";
-import RecoverPassword from "./pages/RecoverPassword";
-import ResetPassword from "./pages/ResetPassword";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { Toaster } from "@/components/ui/toaster";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { AuthProvider } from '@/hooks/use-auth';
+import BookingEvent from './pages/BookingEvent';
+import CreateEvent from './pages/CreateEvent';
+import Index from './pages/Index';
+import NotFound from './pages/NotFound';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import RecoverPassword from './pages/RecoverPassword';
+import ResetPassword from './pages/ResetPassword';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
+import { Toaster as Sonner } from '@/components/ui/sonner';
+import { Toaster } from '@/components/ui/toaster';
+import { TooltipProvider } from '@/components/ui/tooltip';
 
 const queryClient = new QueryClient();
 

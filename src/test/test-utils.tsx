@@ -1,10 +1,10 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import React, { ReactElement } from "react";
-import { RenderOptions, act, render } from "@testing-library/react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React, { ReactElement } from 'react';
+import { RenderOptions, act, render } from '@testing-library/react';
 
-import { AuthProvider } from "@/hooks/use-auth";
-import { BrowserRouter } from "react-router-dom";
-import { vi } from "vitest";
+import { AuthProvider } from '@/hooks/use-auth';
+import { BrowserRouter } from 'react-router-dom';
+import { vi } from 'vitest';
 
 // Create a test QueryClient with default options optimized for testing
 const createTestQueryClient = () =>
@@ -35,11 +35,11 @@ const AllTheProviders = ({ children }: { children: React.ReactNode }) => {
 
 const customRender = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, "wrapper">
+  options?: Omit<RenderOptions, 'wrapper'>
 ) => render(ui, { wrapper: AllTheProviders, ...options });
 
 // Re-export everything
-export * from "@testing-library/react";
+export * from '@testing-library/react';
 export { customRender as render };
 export { act };
 

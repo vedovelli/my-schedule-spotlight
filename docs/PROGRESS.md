@@ -17,29 +17,24 @@ A integração completa do Supabase foi implementada com sistema de autenticaç�
 #### Subtarefas Concluídas
 
 1. **✅ 2.1: Set up Supabase project and initialize client**
-
    - Cliente Supabase configurado com validações
    - Helper functions completas (signUp, signIn, signOut, resetPassword)
    - Documentação em docs/SUPABASE_SETUP.md
 
 2. **✅ 2.2: Implement authentication methods**
-
    - Métodos de autenticação implementados e testados
    - Abstração adequada da API do Supabase
 
 3. **✅ 2.3: Create authentication UI components**
-
    - Componentes UI para signup, login e password reset
    - Validação de formulários e tratamento de erros
 
 4. **✅ 2.4: Set up protected routes and auth state**
-
    - AuthProvider global para gerenciamento de estado
    - ProtectedRoute para proteção de rotas sensíveis
    - Redirecionamento automático e persistência de sessão
 
 5. **✅ 2.5: Implement session persistence and recovery**
-
    - Password recovery completo com ResetPassword page
    - Fluxo seguro: email → link → reset → sucesso
    - Session persistence configurada no Supabase client

@@ -1,23 +1,23 @@
-import { AlertCircle, CheckCircle, Eye, EyeOff, Lock } from "lucide-react";
+import { AlertCircle, CheckCircle, Eye, EyeOff, Lock } from 'lucide-react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+} from '@/components/ui/card';
+import { useEffect, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { supabase } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
 const ResetPassword = () => {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +38,7 @@ const ResetPassword = () => {
         } = await supabase.auth.getSession();
 
         if (error) {
-          console.error("Error checking session:", error);
+          console.error('Error checking session:', error);
           setIsValidSession(false);
         } else if (session) {
           // We have a valid session, user can reset password
@@ -48,7 +48,7 @@ const ResetPassword = () => {
           setIsValidSession(false);
         }
       } catch (error) {
-        console.error("Session check failed:", error);
+        console.error('Session check failed:', error);
         setIsValidSession(false);
       } finally {
         setSessionLoading(false);
@@ -63,18 +63,18 @@ const ResetPassword = () => {
 
     if (password !== confirmPassword) {
       toast({
-        title: "Erro de validação",
-        description: "As senhas não coincidem.",
-        variant: "destructive",
+        title: 'Erro de validação',
+        description: 'As senhas não coincidem.',
+        variant: 'destructive',
       });
       return;
     }
 
     if (password.length < 6) {
       toast({
-        title: "Senha muito curta",
-        description: "A senha deve ter pelo menos 6 caracteres.",
-        variant: "destructive",
+        title: 'Senha muito curta',
+        description: 'A senha deve ter pelo menos 6 caracteres.',
+        variant: 'destructive',
       });
       return;
     }
@@ -88,26 +88,26 @@ const ResetPassword = () => {
 
       if (error) {
         toast({
-          title: "Erro ao redefinir senha",
+          title: 'Erro ao redefinir senha',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         toast({
-          title: "Senha redefinida!",
+          title: 'Senha redefinida!',
           description:
-            "Sua senha foi alterada com sucesso. Você será redirecionado para o login.",
+            'Sua senha foi alterada com sucesso. Você será redirecionado para o login.',
         });
 
         // Sign out and redirect to login
         await supabase.auth.signOut();
-        setTimeout(() => navigate("/signin"), 2000);
+        setTimeout(() => navigate('/signin'), 2000);
       }
     } catch (error) {
       toast({
-        title: "Erro inesperado",
-        description: "Ocorreu um erro ao redefinir a senha. Tente novamente.",
-        variant: "destructive",
+        title: 'Erro inesperado',
+        description: 'Ocorreu um erro ao redefinir a senha. Tente novamente.',
+        variant: 'destructive',
       });
     } finally {
       setIsLoading(false);
@@ -146,7 +146,7 @@ const ResetPassword = () => {
           </CardHeader>
           <CardContent>
             <Button
-              onClick={() => navigate("/recover-password")}
+              onClick={() => navigate('/recover-password')}
               className="w-full"
             >
               Solicitar novo link
@@ -176,10 +176,10 @@ const ResetPassword = () => {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Digite sua nova senha"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={e => setPassword(e.target.value)}
                   className="pl-10 pr-10"
                   required
                   disabled={isLoading}
@@ -211,10 +211,10 @@ const ResetPassword = () => {
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirme sua nova senha"
                   value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  onChange={e => setConfirmPassword(e.target.value)}
                   className="pl-10 pr-10"
                   required
                   disabled={isLoading}
@@ -242,7 +242,7 @@ const ResetPassword = () => {
               className="w-full"
               disabled={isLoading || !password || !confirmPassword}
             >
-              {isLoading ? "Redefinindo..." : "Redefinir senha"}
+              {isLoading ? 'Redefinindo...' : 'Redefinir senha'}
             </Button>
           </form>
         </CardContent>

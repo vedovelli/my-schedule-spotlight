@@ -33,14 +33,14 @@ src/test/
 ### Basic Testing
 
 ```tsx
-import { describe, it, expect } from "vitest";
-import { render, screen } from "@/test/test-utils";
-import { MyComponent } from "@/components/MyComponent";
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@/test/test-utils';
+import { MyComponent } from '@/components/MyComponent';
 
-describe("MyComponent", () => {
-  it("should render correctly", () => {
+describe('MyComponent', () => {
+  it('should render correctly', () => {
     render(<MyComponent />);
-    expect(screen.getByText("Hello")).toBeInTheDocument();
+    expect(screen.getByText('Hello')).toBeInTheDocument();
   });
 });
 ```
@@ -58,10 +58,10 @@ The `test-utils.tsx` file provides:
 Use Vitest's built-in mocking capabilities:
 
 ```tsx
-import { vi } from "vitest";
+import { vi } from 'vitest';
 
 // Mock a module
-vi.mock("@/lib/api", () => ({
+vi.mock('@/lib/api', () => ({
   fetchData: vi.fn(),
 }));
 ```

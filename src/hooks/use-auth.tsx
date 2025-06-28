@@ -1,5 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { Session, User, auth, AuthError } from "@/lib/supabase";
+import React, { createContext, useContext, useEffect, useState } from 'react';
+import { Session, User, auth, AuthError } from '@/lib/supabase';
 
 interface AuthContextType {
   user: User | null;
@@ -34,13 +34,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       try {
         const result = await auth.getSession();
         if (result.error) {
-          console.error("Error getting session:", result.error);
+          console.error('Error getting session:', result.error);
         } else if (result.data?.session) {
           setSession(result.data.session);
           setUser(result.data.session.user);
         }
       } catch (error) {
-        console.error("Error in getInitialSession:", error);
+        console.error('Error in getInitialSession:', error);
       } finally {
         setLoading(false);
       }
@@ -52,7 +52,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     const {
       data: { subscription },
     } = auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed:", event, session);
+      console.log('Auth state changed:', event, session);
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
@@ -68,12 +68,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const result = await auth.signIn(email, password);
       if (result.error) {
-        console.error("Sign in error:", result.error);
+        console.error('Sign in error:', result.error);
         return { error: result.error };
       }
       return { error: null };
     } catch (error) {
-      console.error("Sign in exception:", error);
+      console.error('Sign in exception:', error);
       return { error: error as AuthError };
     } finally {
       setAuthLoading(false);
@@ -85,12 +85,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const result = await auth.signUp(email, password);
       if (result.error) {
-        console.error("Sign up error:", result.error);
+        console.error('Sign up error:', result.error);
         return { error: result.error };
       }
       return { error: null };
     } catch (error) {
-      console.error("Sign up exception:", error);
+      console.error('Sign up exception:', error);
       return { error: error as AuthError };
     } finally {
       setAuthLoading(false);
@@ -102,12 +102,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const result = await auth.signOut();
       if (result.error) {
-        console.error("Sign out error:", result.error);
+        console.error('Sign out error:', result.error);
         return { error: result.error };
       }
       return { error: null };
     } catch (error) {
-      console.error("Sign out exception:", error);
+      console.error('Sign out exception:', error);
       return { error: error as AuthError };
     } finally {
       setAuthLoading(false);
@@ -118,12 +118,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     try {
       const result = await auth.resetPassword(email);
       if (result.error) {
-        console.error("Reset password error:", result.error);
+        console.error('Reset password error:', result.error);
         return { error: result.error };
       }
       return { error: null };
     } catch (error) {
-      console.error("Reset password exception:", error);
+      console.error('Reset password exception:', error);
       return { error: error as AuthError };
     }
   };
@@ -145,7 +145,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
 };

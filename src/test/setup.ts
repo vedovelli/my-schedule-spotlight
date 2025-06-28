@@ -1,20 +1,20 @@
-import "@testing-library/jest-dom";
+import '@testing-library/jest-dom';
 
-import * as matchers from "@testing-library/jest-dom/matchers";
+import * as matchers from '@testing-library/jest-dom/matchers';
 
-import { afterEach, expect, vi } from "vitest";
+import { afterEach, expect, vi } from 'vitest';
 
-import { cleanup } from "@testing-library/react";
+import { cleanup } from '@testing-library/react';
 
 // Extend Vitest's expect with jest-dom matchers
 expect.extend(matchers);
 
 // Mock Supabase environment variables
-vi.stubEnv("VITE_SUPABASE_URL", "https://test.supabase.co");
-vi.stubEnv("VITE_SUPABASE_ANON_KEY", "test-anon-key");
+vi.stubEnv('VITE_SUPABASE_URL', 'https://test.supabase.co');
+vi.stubEnv('VITE_SUPABASE_ANON_KEY', 'test-anon-key');
 
 // Mock Supabase client with proper return values
-vi.mock("@/lib/supabase", () => ({
+vi.mock('@/lib/supabase', () => ({
   auth: {
     signUp: vi.fn().mockResolvedValue({
       data: { user: null, session: null },

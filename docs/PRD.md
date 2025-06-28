@@ -9,7 +9,6 @@ Criação de uma aplicação web para gerenciamento de agendamentos pessoais ins
 ## 🧩 Stack Tecnológico
 
 - **Frontend**
-
   - React (com React Router)
   - TypeScript com configurações strict
   - TailwindCSS
@@ -128,7 +127,6 @@ Criação de uma aplicação web para gerenciamento de agendamentos pessoais ins
 ## 🧠 Edge Functions
 
 - **Verificação de conflito de agendamento**
-
   - Recebe ID do evento e horário desejado
   - Retorna se está disponível ou não
 

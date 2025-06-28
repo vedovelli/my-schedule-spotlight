@@ -1,6 +1,6 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Calendar, Clock, LogOut, Plus, User } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Calendar, Clock, LogOut, Plus, User } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,14 +8,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
-import { Button } from "@/components/ui/button";
-import EventList from "@/components/EventList";
-import { Link } from "react-router-dom";
-import { useAuth } from "@/hooks/use-auth";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { Button } from '@/components/ui/button';
+import EventList from '@/components/EventList';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/use-auth';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 export interface EventType {
   id: string;
@@ -49,38 +49,38 @@ const Index = () => {
   const { toast } = useToast();
   const [events] = useState<EventType[]>([
     {
-      id: "1",
-      title: "Consulta Rápida",
+      id: '1',
+      title: 'Consulta Rápida',
       duration: 30,
-      description: "Conversa rápida de 30 minutos",
+      description: 'Conversa rápida de 30 minutos',
       availability: {
         weekdays: {
           enabled: true,
-          startTime: "08:00",
-          endTime: "12:00",
+          startTime: '08:00',
+          endTime: '12:00',
         },
         weekends: {
           enabled: false,
-          startTime: "10:00",
-          endTime: "13:00",
+          startTime: '10:00',
+          endTime: '13:00',
         },
       },
     },
     {
-      id: "2",
-      title: "Reunião de Fim de Semana",
+      id: '2',
+      title: 'Reunião de Fim de Semana',
       duration: 60,
-      description: "Reunião mais longa para fins de semana",
+      description: 'Reunião mais longa para fins de semana',
       availability: {
         weekdays: {
           enabled: false,
-          startTime: "09:00",
-          endTime: "17:00",
+          startTime: '09:00',
+          endTime: '17:00',
         },
         weekends: {
           enabled: true,
-          startTime: "10:00",
-          endTime: "13:00",
+          startTime: '10:00',
+          endTime: '13:00',
         },
       },
     },
@@ -95,38 +95,38 @@ const Index = () => {
       const { error } = await signOut();
       if (error) {
         toast({
-          title: "Erro ao sair",
+          title: 'Erro ao sair',
           description: error.message,
-          variant: "destructive",
+          variant: 'destructive',
         });
       } else {
         toast({
-          title: "Logout realizado",
-          description: "Você foi desconectado com sucesso.",
+          title: 'Logout realizado',
+          description: 'Você foi desconectado com sucesso.',
         });
       }
     } catch (error) {
       toast({
-        title: "Erro inesperado",
-        description: "Ocorreu um erro ao tentar sair.",
-        variant: "destructive",
+        title: 'Erro inesperado',
+        description: 'Ocorreu um erro ao tentar sair.',
+        variant: 'destructive',
       });
     }
   };
 
   const getUserInitials = (email?: string) => {
-    if (!email) return "U";
-    const username = email.split("@")[0];
-    const parts = username.split(".");
+    if (!email) return 'U';
+    const username = email.split('@')[0];
+    const parts = username.split('.');
     if (parts.length >= 2) {
       return `${parts[0][0] || ''}${parts[1][0] || ''}`.toUpperCase();
     }
-    return username[0]?.toUpperCase() || "U";
+    return username[0]?.toUpperCase() || 'U';
   };
 
   const getUserDisplayName = (email?: string) => {
-    if (!email) return "Usuário";
-    const username = email.split("@")[0];
+    if (!email) return 'Usuário';
+    const username = email.split('@')[0];
     return username.charAt(0).toUpperCase() + username.slice(1);
   };
 
@@ -224,7 +224,7 @@ const Index = () => {
               <div className="text-2xl font-bold text-primary">
                 {
                   events.filter(
-                    (e) =>
+                    e =>
                       e.availability.weekdays.enabled ||
                       e.availability.weekends.enabled
                   ).length

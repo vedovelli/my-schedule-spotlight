@@ -1,29 +1,29 @@
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { Button } from "@/components/ui/button";
-import { EventType } from "@/pages/Index";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { Button } from '@/components/ui/button';
+import { EventType } from '@/pages/Index';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import { useState } from 'react';
 
 interface EventCreatorProps {
-  onSave: (event: Omit<EventType, "id">) => void;
+  onSave: (event: Omit<EventType, 'id'>) => void;
   onCancel: () => void;
 }
 
@@ -34,28 +34,28 @@ interface DayAvailability {
 }
 
 const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
   const [duration, setDuration] = useState(30);
 
   const [weekdays, setWeekdays] = useState<Record<string, DayAvailability>>({
-    monday: { enabled: false, startTime: "08:00", endTime: "17:00" },
-    tuesday: { enabled: false, startTime: "08:00", endTime: "17:00" },
-    wednesday: { enabled: false, startTime: "08:00", endTime: "17:00" },
-    thursday: { enabled: false, startTime: "08:00", endTime: "17:00" },
-    friday: { enabled: false, startTime: "08:00", endTime: "17:00" },
-    saturday: { enabled: false, startTime: "10:00", endTime: "13:00" },
-    sunday: { enabled: false, startTime: "10:00", endTime: "13:00" },
+    monday: { enabled: false, startTime: '08:00', endTime: '17:00' },
+    tuesday: { enabled: false, startTime: '08:00', endTime: '17:00' },
+    wednesday: { enabled: false, startTime: '08:00', endTime: '17:00' },
+    thursday: { enabled: false, startTime: '08:00', endTime: '17:00' },
+    friday: { enabled: false, startTime: '08:00', endTime: '17:00' },
+    saturday: { enabled: false, startTime: '10:00', endTime: '13:00' },
+    sunday: { enabled: false, startTime: '10:00', endTime: '13:00' },
   });
 
   const dayLabels = {
-    monday: "Segunda-feira",
-    tuesday: "Terça-feira",
-    wednesday: "Quarta-feira",
-    thursday: "Quinta-feira",
-    friday: "Sexta-feira",
-    saturday: "Sábado",
-    sunday: "Domingo",
+    monday: 'Segunda-feira',
+    tuesday: 'Terça-feira',
+    wednesday: 'Quarta-feira',
+    thursday: 'Quinta-feira',
+    friday: 'Sexta-feira',
+    saturday: 'Sábado',
+    sunday: 'Domingo',
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -65,7 +65,7 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
 
     // Convert the new format to the old format for compatibility
     const hasWeekdayEnabled = Object.entries(weekdays)
-      .filter(([day]) => !["saturday", "sunday"].includes(day))
+      .filter(([day]) => !['saturday', 'sunday'].includes(day))
       .some(([, config]) => config.enabled);
 
     const hasWeekendEnabled =
@@ -75,15 +75,15 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
     const weekdayTimes = Object.entries(weekdays)
       .filter(
         ([day, config]) =>
-          !["saturday", "sunday"].includes(day) && config.enabled
+          !['saturday', 'sunday'].includes(day) && config.enabled
       )
       .map(([, config]) => config);
 
     const weekendTimes = [weekdays.saturday, weekdays.sunday].filter(
-      (config) => config.enabled
+      config => config.enabled
     );
 
-    const newEvent: Omit<EventType, "id"> = {
+    const newEvent: Omit<EventType, 'id'> = {
       title,
       description,
       duration,
@@ -91,14 +91,14 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
         weekdays: {
           enabled: hasWeekdayEnabled,
           startTime:
-            weekdayTimes.length > 0 ? weekdayTimes[0].startTime : "08:00",
-          endTime: weekdayTimes.length > 0 ? weekdayTimes[0].endTime : "17:00",
+            weekdayTimes.length > 0 ? weekdayTimes[0].startTime : '08:00',
+          endTime: weekdayTimes.length > 0 ? weekdayTimes[0].endTime : '17:00',
         },
         weekends: {
           enabled: hasWeekendEnabled,
           startTime:
-            weekendTimes.length > 0 ? weekendTimes[0].startTime : "10:00",
-          endTime: weekendTimes.length > 0 ? weekendTimes[0].endTime : "13:00",
+            weekendTimes.length > 0 ? weekendTimes[0].startTime : '10:00',
+          endTime: weekendTimes.length > 0 ? weekendTimes[0].endTime : '13:00',
         },
         // Store detailed day configuration
         detailed: weekdays,
@@ -112,9 +112,9 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
     const times = [];
     for (let hour = 0; hour < 24; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const time = `${hour.toString().padStart(2, "0")}:${minute
+        const time = `${hour.toString().padStart(2, '0')}:${minute
           .toString()
-          .padStart(2, "0")}`;
+          .padStart(2, '0')}`;
         times.push(time);
       }
     }
@@ -128,7 +128,7 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
     field: keyof DayAvailability,
     value: boolean | string
   ) => {
-    setWeekdays((prev) => ({
+    setWeekdays(prev => ({
       ...prev,
       [day]: {
         ...prev[day],
@@ -137,7 +137,7 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
     }));
   };
 
-  const anyDayEnabled = Object.values(weekdays).some((day) => day.enabled);
+  const anyDayEnabled = Object.values(weekdays).some(day => day.enabled);
 
   return (
     <div>
@@ -161,7 +161,7 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
                   id="title"
                   placeholder="Ex: Consulta Rápida"
                   value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  onChange={e => setTitle(e.target.value)}
                   required
                 />
               </div>
@@ -172,7 +172,7 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
                   id="description"
                   placeholder="Descreva brevemente o que será tratado neste evento"
                   value={description}
-                  onChange={(e) => setDescription(e.target.value)}
+                  onChange={e => setDescription(e.target.value)}
                   rows={3}
                 />
               </div>
@@ -181,7 +181,7 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
                 <Label htmlFor="duration">Duração (minutos)</Label>
                 <Select
                   value={duration.toString()}
-                  onValueChange={(value) => setDuration(parseInt(value))}
+                  onValueChange={value => setDuration(parseInt(value))}
                 >
                   <SelectTrigger>
                     <SelectValue />
@@ -219,8 +219,8 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
                     </div>
                     <Switch
                       checked={weekdays[dayKey].enabled}
-                      onCheckedChange={(checked) =>
-                        updateDayAvailability(dayKey, "enabled", checked)
+                      onCheckedChange={checked =>
+                        updateDayAvailability(dayKey, 'enabled', checked)
                       }
                     />
                   </div>
@@ -233,15 +233,15 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
                         </Label>
                         <Select
                           value={weekdays[dayKey].startTime}
-                          onValueChange={(value) =>
-                            updateDayAvailability(dayKey, "startTime", value)
+                          onValueChange={value =>
+                            updateDayAvailability(dayKey, 'startTime', value)
                           }
                         >
                           <SelectTrigger className="h-8">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            {timeOptions.map((time) => (
+                            {timeOptions.map(time => (
                               <SelectItem key={time} value={time}>
                                 {time}
                               </SelectItem>
@@ -255,15 +255,15 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
                         </Label>
                         <Select
                           value={weekdays[dayKey].endTime}
-                          onValueChange={(value) =>
-                            updateDayAvailability(dayKey, "endTime", value)
+                          onValueChange={value =>
+                            updateDayAvailability(dayKey, 'endTime', value)
                           }
                         >
                           <SelectTrigger className="h-8">
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            {timeOptions.map((time) => (
+                            {timeOptions.map(time => (
                               <SelectItem key={time} value={time}>
                                 {time}
                               </SelectItem>

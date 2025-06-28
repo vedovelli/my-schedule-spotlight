@@ -39,11 +39,8 @@ O Husky executa automaticamente no commit:
 ### 2.2 Execução Manual (Durante Desenvolvimento)
 
 ```bash
-npm run dev         # Desenvolvimento com hot reload
-npm run test        # Testes em modo watch
-npm run test:ui     # Interface visual do Vitest
-npm run lint        # Verificação ESLint
-npm run typecheck   # Verificação TypeScript
+npm run qa     # Exeucta QA Pipeline
+npm run build  # Build project
 ```
 
 ### 2.3 Estrutura de Testes Configurada
@@ -151,12 +148,8 @@ npm run build:dev        # Development build
 npm run preview          # Preview production build
 
 # Qualidade & Testes
-npm run lint             # ESLint check
-npm run typecheck        # TypeScript check
-npm run test             # Vitest watch mode
-npm run test:run         # Vitest single run
-npm run test:ui          # Visual test interface
-npm run test:coverage    # Coverage report
+npm run qa     # QA pipeline
+npm run build  # Build project
 ```
 
 ### 5.2 Task Master MCP Tools

@@ -1,11 +1,11 @@
-import { act, fireEvent, render, screen } from "@/test/test-utils";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { act, fireEvent, render, screen } from '@/test/test-utils';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import RecoverPassword from "@/pages/RecoverPassword";
+import RecoverPassword from '@/pages/RecoverPassword';
 
 // Mock react-router-dom
-vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual("react-router-dom");
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom');
   return {
     ...actual,
     Link: ({
@@ -25,9 +25,9 @@ vi.mock("react-router-dom", async () => {
 });
 
 // Mock console.log para verificar tentativas de recuperação
-const mockConsoleLog = vi.spyOn(console, "log").mockImplementation(() => {});
+const mockConsoleLog = vi.spyOn(console, 'log').mockImplementation(() => {});
 
-describe("RecoverPassword Component", () => {
+describe('RecoverPassword Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -36,51 +36,51 @@ describe("RecoverPassword Component", () => {
     vi.clearAllMocks();
   });
 
-  it("should render initial form correctly", () => {
+  it('should render initial form correctly', () => {
     render(<RecoverPassword />);
 
-    expect(screen.getByText("Recuperar senha")).toBeInTheDocument();
+    expect(screen.getByText('Recuperar senha')).toBeInTheDocument();
     expect(
       screen.getByText(
-        "Digite seu email para receber as instruções de recuperação"
+        'Digite seu email para receber as instruções de recuperação'
       )
     ).toBeInTheDocument();
 
-    expect(screen.getByLabelText("Email")).toBeInTheDocument();
+    expect(screen.getByLabelText('Email')).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Enviar instruções" })
+      screen.getByRole('button', { name: 'Enviar instruções' })
     ).toBeInTheDocument();
-    expect(screen.getByText("Voltar ao login")).toBeInTheDocument();
+    expect(screen.getByText('Voltar ao login')).toBeInTheDocument();
   });
 
-  it("should update email input value when typing", () => {
+  it('should update email input value when typing', () => {
     render(<RecoverPassword />);
 
-    const emailInput = screen.getByLabelText("Email");
+    const emailInput = screen.getByLabelText('Email');
 
-    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
-    expect(emailInput).toHaveValue("test@example.com");
+    expect(emailInput).toHaveValue('test@example.com');
   });
 
-  it("should require email field", () => {
+  it('should require email field', () => {
     render(<RecoverPassword />);
 
-    const emailInput = screen.getByLabelText("Email");
+    const emailInput = screen.getByLabelText('Email');
 
     expect(emailInput).toBeRequired();
   });
 
-  it("should handle form submission", () => {
+  it('should handle form submission', () => {
     render(<RecoverPassword />);
 
-    const emailInput = screen.getByLabelText("Email");
-    const submitButton = screen.getByRole("button", {
-      name: "Enviar instruções",
+    const emailInput = screen.getByLabelText('Email');
+    const submitButton = screen.getByRole('button', {
+      name: 'Enviar instruções',
     });
 
     // Fill form
-    fireEvent.change(emailInput, { target: { value: "test@example.com" } });
+    fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
 
     // Submit form
     act(() => {
@@ -88,15 +88,15 @@ describe("RecoverPassword Component", () => {
     });
 
     // Check loading state appears
-    expect(screen.getByText("Enviando...")).toBeInTheDocument();
+    expect(screen.getByText('Enviando...')).toBeInTheDocument();
     expect(submitButton).toBeDisabled();
   });
 
-  it("should prevent form submission when email is empty", () => {
+  it('should prevent form submission when email is empty', () => {
     render(<RecoverPassword />);
 
-    const submitButton = screen.getByRole("button", {
-      name: "Enviar instruções",
+    const submitButton = screen.getByRole('button', {
+      name: 'Enviar instruções',
     });
 
     fireEvent.click(submitButton);
@@ -105,20 +105,20 @@ describe("RecoverPassword Component", () => {
     expect(mockConsoleLog).not.toHaveBeenCalled();
   });
 
-  it("should render correct links", () => {
+  it('should render correct links', () => {
     render(<RecoverPassword />);
 
-    const backToLoginLink = screen.getByText("Voltar ao login");
+    const backToLoginLink = screen.getByText('Voltar ao login');
 
-    expect(backToLoginLink.closest("a")).toHaveAttribute("href", "/signin");
+    expect(backToLoginLink.closest('a')).toHaveAttribute('href', '/signin');
   });
 
-  it("should have proper accessibility attributes", () => {
+  it('should have proper accessibility attributes', () => {
     render(<RecoverPassword />);
 
-    const emailInput = screen.getByLabelText("Email");
+    const emailInput = screen.getByLabelText('Email');
 
-    expect(emailInput).toHaveAttribute("type", "email");
-    expect(emailInput).toHaveAttribute("placeholder", "seu@email.com");
+    expect(emailInput).toHaveAttribute('type', 'email');
+    expect(emailInput).toHaveAttribute('placeholder', 'seu@email.com');
   });
 });
