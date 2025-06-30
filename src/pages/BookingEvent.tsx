@@ -1,3 +1,4 @@
+
 import { useParams, useNavigate } from 'react-router-dom';
 import BookingPage from '@/components/BookingPage';
 import { EventType } from './Index';
@@ -18,14 +19,14 @@ const BookingEvent = () => {
         weekdays: {
           enabled: true,
           startTime: '08:00',
-          endTime: '12:00',
+          endTime: '12:00'
         },
         weekends: {
           enabled: false,
           startTime: '10:00',
-          endTime: '13:00',
-        },
-      },
+          endTime: '13:00'
+        }
+      }
     },
     {
       id: '2',
@@ -36,15 +37,15 @@ const BookingEvent = () => {
         weekdays: {
           enabled: false,
           startTime: '09:00',
-          endTime: '17:00',
+          endTime: '17:00'
         },
         weekends: {
           enabled: true,
           startTime: '10:00',
-          endTime: '13:00',
-        },
-      },
-    },
+          endTime: '13:00'
+        }
+      }
+    }
   ];
 
   const selectedEvent = mockEvents.find(e => e.id === eventId);
@@ -58,7 +59,10 @@ const BookingEvent = () => {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Evento não encontrado</h1>
-          <button onClick={handleBack} className="text-primary hover:underline">
+          <button 
+            onClick={handleBack}
+            className="text-primary hover:underline"
+          >
             Voltar ao dashboard
           </button>
         </div>
@@ -68,7 +72,10 @@ const BookingEvent = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <BookingPage event={selectedEvent} onBack={handleBack} />
+      <BookingPage 
+        event={selectedEvent}
+        onBack={handleBack}
+      />
     </div>
   );
 };

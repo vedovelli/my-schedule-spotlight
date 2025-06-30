@@ -1,13 +1,7 @@
 import { useState } from 'react';
 import { ArrowLeft, Calendar, Clock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -30,68 +24,65 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
   const generateAvailableDates = () => {
     const dates = [];
     const today = new Date();
-
+    
     const dayMapping = {
       0: 'sunday',
-      1: 'monday',
+      1: 'monday', 
       2: 'tuesday',
       3: 'wednesday',
       4: 'thursday',
       5: 'friday',
-      6: 'saturday',
+      6: 'saturday'
     };
-
+    
     for (let i = 1; i <= 14; i++) {
       const date = new Date(today);
       date.setDate(date.getDate() + i);
-
+      
       const dayOfWeek = date.getDay();
       const dayKey = dayMapping[dayOfWeek as keyof typeof dayMapping];
-
+      
       // Check if this specific day is enabled using detailed config if available
       let isDayEnabled = false;
-
+      
       if (event.availability.detailed && event.availability.detailed[dayKey]) {
         isDayEnabled = event.availability.detailed[dayKey].enabled;
       } else {
         // Fallback to old logic
         const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
         const isWeekday = !isWeekend;
-        isDayEnabled =
-          (isWeekday && event.availability.weekdays.enabled) ||
-          (isWeekend && event.availability.weekends.enabled);
+        isDayEnabled = (isWeekday && event.availability.weekdays.enabled) || 
+                      (isWeekend && event.availability.weekends.enabled);
       }
-
+      
       if (isDayEnabled) {
         dates.push({
           date: date.toISOString().split('T')[0],
-          display: date.toLocaleDateString('pt-BR', {
-            weekday: 'short',
-            day: '2-digit',
-            month: '2-digit',
+          display: date.toLocaleDateString('pt-BR', { 
+            weekday: 'short', 
+            day: '2-digit', 
+            month: '2-digit' 
           }),
           dayKey,
-          isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
+          isWeekend: dayOfWeek === 0 || dayOfWeek === 6
         });
       }
     }
-
+    
     return dates;
   };
 
   const generateAvailableTimes = (dayKey: string, isWeekend: boolean) => {
     let availability;
-
+    
     // Use detailed config if available
     if (event.availability.detailed && event.availability.detailed[dayKey]) {
       availability = event.availability.detailed[dayKey];
     } else {
       // Fallback to old logic
-      availability = isWeekend
-        ? event.availability.weekends
-        : event.availability.weekdays;
+      availability = isWeekend ? event.availability.weekends : event.availability.weekdays;
     }
-
+    
     if (!availability.enabled) return [];
 
     const times = [];
@@ -115,13 +106,11 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
 
   const availableDates = generateAvailableDates();
   const selectedDateObj = availableDates.find(d => d.date === selectedDate);
-  const availableTimes = selectedDateObj
-    ? generateAvailableTimes(selectedDateObj.dayKey, selectedDateObj.isWeekend)
-    : [];
+  const availableTimes = selectedDateObj ? generateAvailableTimes(selectedDateObj.dayKey, selectedDateObj.isWeekend) : [];
 
   const handleBooking = (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (!selectedDate || !selectedTime || !customerName || !customerEmail) {
       return;
     }
@@ -142,32 +131,18 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
             </div>
             <h2 className="text-2xl font-bold mb-2">Agendamento Confirmado!</h2>
             <p className="text-muted-foreground mb-6">
-              Seu agendamento foi realizado com sucesso. Você receberá um email
-              com os detalhes.
+              Seu agendamento foi realizado com sucesso. Você receberá um email com os detalhes.
             </p>
-
+            
             <div className="bg-muted/50 rounded-lg p-4 mb-6 text-left">
               <h3 className="font-semibold mb-2">Detalhes do Agendamento:</h3>
               <div className="space-y-1 text-sm">
-                <p>
-                  <strong>Evento:</strong> {event.title}
-                </p>
-                <p>
-                  <strong>Data:</strong>{' '}
-                  {new Date(selectedDate).toLocaleDateString('pt-BR')}
-                </p>
-                <p>
-                  <strong>Horário:</strong> {selectedTime}
-                </p>
-                <p>
-                  <strong>Duração:</strong> {event.duration} minutos
-                </p>
-                <p>
-                  <strong>Nome:</strong> {customerName}
-                </p>
-                <p>
-                  <strong>Email:</strong> {customerEmail}
-                </p>
+                <p><strong>Evento:</strong> {event.title}</p>
+                <p><strong>Data:</strong> {new Date(selectedDate).toLocaleDateString('pt-BR')}</p>
+                <p><strong>Horário:</strong> {selectedTime}</p>
+                <p><strong>Duração:</strong> {event.duration} minutos</p>
+                <p><strong>Nome:</strong> {customerName}</p>
+                <p><strong>Email:</strong> {customerEmail}</p>
               </div>
             </div>
 
@@ -207,9 +182,7 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
             <div>
               <h3 className="font-semibold">{event.title}</h3>
               {event.description && (
-                <p className="text-muted-foreground text-sm mt-1">
-                  {event.description}
-                </p>
+                <p className="text-muted-foreground text-sm mt-1">{event.description}</p>
               )}
             </div>
 
@@ -222,16 +195,10 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
               <h4 className="text-sm font-medium mb-2">Disponibilidade:</h4>
               <div className="space-y-1 text-sm text-muted-foreground">
                 {event.availability.weekdays.enabled && (
-                  <p>
-                    Segunda a Sexta: {event.availability.weekdays.startTime} às{' '}
-                    {event.availability.weekdays.endTime}
-                  </p>
+                  <p>Segunda a Sexta: {event.availability.weekdays.startTime} às {event.availability.weekdays.endTime}</p>
                 )}
                 {event.availability.weekends.enabled && (
-                  <p>
-                    Fins de semana: {event.availability.weekends.startTime} às{' '}
-                    {event.availability.weekends.endTime}
-                  </p>
+                  <p>Fins de semana: {event.availability.weekends.startTime} às {event.availability.weekends.endTime}</p>
                 )}
               </div>
             </div>
@@ -252,23 +219,17 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
               <div>
                 <Label>Escolha uma data</Label>
                 <div className="grid grid-cols-2 gap-2 mt-2">
-                  {availableDates.map(dateOption => (
+                  {availableDates.map((dateOption) => (
                     <Button
                       key={dateOption.date}
                       type="button"
-                      variant={
-                        selectedDate === dateOption.date ? 'default' : 'outline'
-                      }
+                      variant={selectedDate === dateOption.date ? "default" : "outline"}
                       size="sm"
                       onClick={() => {
                         setSelectedDate(dateOption.date);
                         setSelectedTime('');
                       }}
-                      className={
-                        selectedDate === dateOption.date
-                          ? 'bg-primary hover:bg-primary/90'
-                          : ''
-                      }
+                      className={selectedDate === dateOption.date ? "bg-primary hover:bg-primary/90" : ""}
                     >
                       {dateOption.display}
                     </Button>
@@ -281,18 +242,14 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
                 <div>
                   <Label>Escolha um horário</Label>
                   <div className="grid grid-cols-3 gap-2 mt-2">
-                    {availableTimes.map(time => (
+                    {availableTimes.map((time) => (
                       <Button
                         key={time}
                         type="button"
-                        variant={selectedTime === time ? 'default' : 'outline'}
+                        variant={selectedTime === time ? "default" : "outline"}
                         size="sm"
                         onClick={() => setSelectedTime(time)}
-                        className={
-                          selectedTime === time
-                            ? 'bg-primary hover:bg-primary/90'
-                            : ''
-                        }
+                        className={selectedTime === time ? "bg-primary hover:bg-primary/90" : ""}
                       >
                         {time}
                       </Button>
@@ -309,7 +266,7 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
                     <Input
                       id="name"
                       value={customerName}
-                      onChange={e => setCustomerName(e.target.value)}
+                      onChange={(e) => setCustomerName(e.target.value)}
                       required
                     />
                   </div>
@@ -320,7 +277,7 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
                       id="email"
                       type="email"
                       value={customerEmail}
-                      onChange={e => setCustomerEmail(e.target.value)}
+                      onChange={(e) => setCustomerEmail(e.target.value)}
                       required
                     />
                   </div>
@@ -331,13 +288,13 @@ const BookingPage = ({ event, onBack }: BookingPageProps) => {
                       id="notes"
                       placeholder="Alguma informação adicional..."
                       value={notes}
-                      onChange={e => setNotes(e.target.value)}
+                      onChange={(e) => setNotes(e.target.value)}
                       rows={3}
                     />
                   </div>
 
-                  <Button
-                    type="submit"
+                  <Button 
+                    type="submit" 
                     className="w-full bg-primary hover:bg-primary/90"
                     disabled={!customerName || !customerEmail}
                   >

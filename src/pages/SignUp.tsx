@@ -1,19 +1,11 @@
-import { Building, Eye, EyeOff, Lock, Mail, User } from 'lucide-react';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Link, useNavigate } from 'react-router-dom';
 
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useAuth } from '@/hooks/use-auth';
-import { useState } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Eye, EyeOff, Mail, Lock, User, Building } from 'lucide-react';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -21,84 +13,35 @@ const SignUp = () => {
     email: '',
     company: '',
     password: '',
-    confirmPassword: '',
+    confirmPassword: ''
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { signUp } = useAuth();
-  const { toast } = useToast();
-  const navigate = useNavigate();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
     if (formData.password !== formData.confirmPassword) {
-      toast({
-        title: 'Erro na confirmação',
-        description: 'As senhas não coincidem. Verifique e tente novamente.',
-        variant: 'destructive',
-      });
-      return;
-    }
-
-    if (formData.password.length < 8) {
-      toast({
-        title: 'Senha muito curta',
-        description: 'A senha deve ter pelo menos 8 caracteres.',
-        variant: 'destructive',
-      });
+      alert('As senhas não coincidem');
       return;
     }
 
     setIsLoading(true);
-
-    try {
-      const { error } = await signUp(formData.email, formData.password);
-
-      if (error) {
-        toast({
-          title: 'Erro ao criar conta',
-          description: error.message,
-          variant: 'destructive',
-        });
-      } else {
-        toast({
-          title: 'Conta criada com sucesso!',
-          description: 'Verifique seu email para confirmar sua conta.',
-        });
-
-        // Redirect to signin page
-        navigate('/signin');
-      }
-    } catch (error) {
-      toast({
-        title: 'Erro inesperado',
-        description:
-          'Ocorreu um erro ao tentar criar sua conta. Tente novamente.',
-        variant: 'destructive',
-      });
-    } finally {
+    
+    // Simulação de cadastro - aqui você conectaria com sua API
+    setTimeout(() => {
+      console.log('Signup attempt:', formData);
       setIsLoading(false);
-    }
+    }, 1000);
   };
-
-  const isFormValid =
-    formData.name &&
-    formData.email &&
-    formData.company &&
-    formData.password &&
-    formData.confirmPassword &&
-    formData.password === formData.confirmPassword &&
-    formData.password.length >= 8;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-4">
@@ -126,7 +69,6 @@ const SignUp = () => {
                   onChange={handleChange}
                   className="pl-10"
                   required
-                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -144,7 +86,6 @@ const SignUp = () => {
                   onChange={handleChange}
                   className="pl-10"
                   required
-                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -162,11 +103,10 @@ const SignUp = () => {
                   onChange={handleChange}
                   className="pl-10"
                   required
-                  disabled={isLoading}
                 />
               </div>
             </div>
-
+            
             <div className="space-y-2">
               <Label htmlFor="password">Senha</Label>
               <div className="relative">
@@ -181,13 +121,11 @@ const SignUp = () => {
                   className="pl-10 pr-10"
                   minLength={8}
                   required
-                  disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
                   className="absolute right-3 top-3 h-4 w-4 text-muted-foreground hover:text-foreground"
-                  disabled={isLoading}
                 >
                   {showPassword ? <EyeOff /> : <Eye />}
                 </button>
@@ -207,29 +145,21 @@ const SignUp = () => {
                   onChange={handleChange}
                   className="pl-10 pr-10"
                   required
-                  disabled={isLoading}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   className="absolute right-3 top-3 h-4 w-4 text-muted-foreground hover:text-foreground"
-                  disabled={isLoading}
                 >
                   {showConfirmPassword ? <EyeOff /> : <Eye />}
                 </button>
               </div>
             </div>
 
-            {formData.password &&
-              formData.confirmPassword &&
-              formData.password !== formData.confirmPassword && (
-                <p className="text-sm text-red-600">As senhas não coincidem</p>
-              )}
-
             <Button
               type="submit"
               className="w-full"
-              disabled={isLoading || !isFormValid}
+              disabled={isLoading}
             >
               {isLoading ? 'Criando conta...' : 'Criar conta'}
             </Button>
