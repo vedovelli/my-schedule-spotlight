@@ -1,7 +1,12 @@
-
 import { Clock, Calendar, Share2, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { EventType } from '@/pages/Index';
 
@@ -18,34 +23,34 @@ const EventList = ({ events, onBookEvent }: EventListProps) => {
         .map(([day, config]) => {
           const dayNames = {
             monday: 'Seg',
-            tuesday: 'Ter', 
+            tuesday: 'Ter',
             wednesday: 'Qua',
             thursday: 'Qui',
             friday: 'Sex',
             saturday: 'Sáb',
-            sunday: 'Dom'
+            sunday: 'Dom',
           };
           return `${dayNames[day as keyof typeof dayNames]}: ${config.startTime}-${config.endTime}`;
         });
-      
+
       return enabledDays.join(' • ');
     }
-    
+
     // Fallback to old format
     const availability = [];
-    
+
     if (event.availability.weekdays.enabled) {
       availability.push(
         `Seg-Sex: ${event.availability.weekdays.startTime} às ${event.availability.weekdays.endTime}`
       );
     }
-    
+
     if (event.availability.weekends.enabled) {
       availability.push(
         `Fins de semana: ${event.availability.weekends.startTime} às ${event.availability.weekends.endTime}`
       );
     }
-    
+
     return availability.join(' • ');
   };
 
@@ -58,7 +63,7 @@ const EventList = ({ events, onBookEvent }: EventListProps) => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {events.map((event) => (
+      {events.map(event => (
         <Card key={event.id} className="hover:shadow-lg transition-shadow">
           <CardHeader>
             <div className="flex items-start justify-between">
@@ -83,9 +88,7 @@ const EventList = ({ events, onBookEvent }: EventListProps) => {
               <h4 className="text-sm font-medium mb-2 text-muted-foreground">
                 Disponibilidade:
               </h4>
-              <p className="text-sm">
-                {formatAvailability(event)}
-              </p>
+              <p className="text-sm">{formatAvailability(event)}</p>
             </div>
 
             <div className="space-y-2">
@@ -99,9 +102,10 @@ const EventList = ({ events, onBookEvent }: EventListProps) => {
                 {event.availability.weekends.enabled && (
                   <Badge variant="secondary">Fins de semana</Badge>
                 )}
-                {!event.availability.weekdays.enabled && !event.availability.weekends.enabled && (
-                  <Badge variant="destructive">Inativo</Badge>
-                )}
+                {!event.availability.weekdays.enabled &&
+                  !event.availability.weekends.enabled && (
+                    <Badge variant="destructive">Inativo</Badge>
+                  )}
               </div>
             </div>
 

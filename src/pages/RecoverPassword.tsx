@@ -1,27 +1,88 @@
+import { ArrowLeft, CheckCircle, Mail } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Mail, ArrowLeft, CheckCircle } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/hooks/use-auth';
+import { useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const RecoverPassword = () => {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
 
+  const { resetPassword } = useAuth();
+  const { toast } = useToast();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulação de envio de email - aqui você conectaria com sua API
-    setTimeout(() => {
-      console.log('Password recovery request for:', email);
-      setEmailSent(true);
+
+    try {
+      const { error } = await resetPassword(email);
+
+      if (error) {
+        toast({
+          title: 'Erro ao enviar email',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else {
+        setEmailSent(true);
+        toast({
+          title: 'Email enviado!',
+          description:
+            'Verifique sua caixa de entrada para as instruções de recuperação.',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Erro inesperado',
+        description:
+          'Ocorreu um erro ao tentar enviar o email. Tente novamente.',
+        variant: 'destructive',
+      });
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
+  };
+
+  const handleResendEmail = async () => {
+    setIsLoading(true);
+
+    try {
+      const { error } = await resetPassword(email);
+
+      if (error) {
+        toast({
+          title: 'Erro ao reenviar email',
+          description: error.message,
+          variant: 'destructive',
+        });
+      } else {
+        toast({
+          title: 'Email reenviado!',
+          description: 'Verifique sua caixa de entrada novamente.',
+        });
+      }
+    } catch (error) {
+      toast({
+        title: 'Erro inesperado',
+        description: 'Ocorreu um erro ao tentar reenviar o email.',
+        variant: 'destructive',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   if (emailSent) {
@@ -32,9 +93,7 @@ const RecoverPassword = () => {
             <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
               <CheckCircle className="h-6 w-6 text-primary" />
             </div>
-            <CardTitle className="text-2xl font-bold">
-              Email enviado!
-            </CardTitle>
+            <CardTitle className="text-2xl font-bold">Email enviado!</CardTitle>
             <CardDescription>
               Enviamos as instruções para recuperar sua senha para o email:
               <br />
@@ -46,16 +105,17 @@ const RecoverPassword = () => {
               <p>Verifique sua caixa de entrada e spam.</p>
               <p>O link expira em 1 hora.</p>
             </div>
-            
+
             <div className="flex flex-col gap-2">
               <Button
-                onClick={() => setEmailSent(false)}
+                onClick={handleResendEmail}
                 variant="outline"
                 className="w-full"
+                disabled={isLoading}
               >
-                Enviar novamente
+                {isLoading ? 'Enviando...' : 'Enviar novamente'}
               </Button>
-              
+
               <Link to="/signin">
                 <Button variant="ghost" className="w-full">
                   <ArrowLeft className="w-4 h-4 mr-2" />
@@ -91,9 +151,10 @@ const RecoverPassword = () => {
                   type="email"
                   placeholder="seu@email.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={e => setEmail(e.target.value)}
                   className="pl-10"
                   required
+                  disabled={isLoading}
                 />
               </div>
             </div>
@@ -101,7 +162,7 @@ const RecoverPassword = () => {
             <Button
               type="submit"
               className="w-full"
-              disabled={isLoading}
+              disabled={isLoading || !email}
             >
               {isLoading ? 'Enviando...' : 'Enviar instruções'}
             </Button>

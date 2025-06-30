@@ -1,39 +1,52 @@
+import { Calendar, Clock } from 'lucide-react';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
-import { useState } from 'react';
-import { ArrowLeft, Clock, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { EventType } from '@/pages/Index';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  eventFormSchema,
+  type EventFormData,
+  type DayAvailabilityData,
+  defaultEventFormValues,
+} from '@/lib/validations/event-form';
 
 interface EventCreatorProps {
   onSave: (event: Omit<EventType, 'id'>) => void;
   onCancel: () => void;
 }
 
-interface DayAvailability {
-  enabled: boolean;
-  startTime: string;
-  endTime: string;
-}
-
 const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [duration, setDuration] = useState(30);
-  
-  const [weekdays, setWeekdays] = useState<Record<string, DayAvailability>>({
-    monday: { enabled: false, startTime: '08:00', endTime: '17:00' },
-    tuesday: { enabled: false, startTime: '08:00', endTime: '17:00' },
-    wednesday: { enabled: false, startTime: '08:00', endTime: '17:00' },
-    thursday: { enabled: false, startTime: '08:00', endTime: '17:00' },
-    friday: { enabled: false, startTime: '08:00', endTime: '17:00' },
-    saturday: { enabled: false, startTime: '10:00', endTime: '13:00' },
-    sunday: { enabled: false, startTime: '10:00', endTime: '13:00' },
+  const form = useForm<EventFormData>({
+    resolver: zodResolver(eventFormSchema),
+    defaultValues: defaultEventFormValues,
+    mode: 'onChange', // Validate on change for better UX
   });
 
   const dayLabels = {
@@ -46,43 +59,49 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
     sunday: 'Domingo',
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!title.trim()) return;
+  const handleSubmit = (data: EventFormData) => {
+    const { title, description, duration, weekdays } = data;
 
     // Convert the new format to the old format for compatibility
     const hasWeekdayEnabled = Object.entries(weekdays)
       .filter(([day]) => !['saturday', 'sunday'].includes(day))
       .some(([, config]) => config.enabled);
 
-    const hasWeekendEnabled = weekdays.saturday.enabled || weekdays.sunday.enabled;
+    const hasWeekendEnabled =
+      weekdays.saturday.enabled || weekdays.sunday.enabled;
 
     // Find common time ranges for weekdays and weekends (simplified approach)
     const weekdayTimes = Object.entries(weekdays)
-      .filter(([day, config]) => !['saturday', 'sunday'].includes(day) && config.enabled)
+      .filter(
+        ([day, config]) =>
+          !['saturday', 'sunday'].includes(day) && config.enabled
+      )
       .map(([, config]) => config);
 
-    const weekendTimes = [weekdays.saturday, weekdays.sunday].filter(config => config.enabled);
+    const weekendTimes = [weekdays.saturday, weekdays.sunday].filter(
+      config => config.enabled
+    );
 
     const newEvent: Omit<EventType, 'id'> = {
       title,
-      description,
+      description: description || '',
       duration,
       availability: {
         weekdays: {
           enabled: hasWeekdayEnabled,
-          startTime: weekdayTimes.length > 0 ? weekdayTimes[0].startTime : '08:00',
-          endTime: weekdayTimes.length > 0 ? weekdayTimes[0].endTime : '17:00'
+          startTime:
+            weekdayTimes.length > 0 ? weekdayTimes[0].startTime : '08:00',
+          endTime: weekdayTimes.length > 0 ? weekdayTimes[0].endTime : '17:00',
         },
         weekends: {
           enabled: hasWeekendEnabled,
-          startTime: weekendTimes.length > 0 ? weekendTimes[0].startTime : '10:00',
-          endTime: weekendTimes.length > 0 ? weekendTimes[0].endTime : '13:00'
+          startTime:
+            weekendTimes.length > 0 ? weekendTimes[0].startTime : '10:00',
+          endTime: weekendTimes.length > 0 ? weekendTimes[0].endTime : '13:00',
         },
         // Store detailed day configuration
-        detailed: weekdays
-      }
+        detailed: weekdays,
+      },
     };
 
     onSave(newEvent);
@@ -92,7 +111,9 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
     const times = [];
     for (let hour = 0; hour < 24; hour++) {
       for (let minute = 0; minute < 60; minute += 30) {
-        const time = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        const time = `${hour.toString().padStart(2, '0')}:${minute
+          .toString()
+          .padStart(2, '0')}`;
         times.push(time);
       }
     }
@@ -101,167 +122,228 @@ const EventCreator = ({ onSave, onCancel }: EventCreatorProps) => {
 
   const timeOptions = generateTimeOptions();
 
-  const updateDayAvailability = (day: string, field: keyof DayAvailability, value: boolean | string) => {
-    setWeekdays(prev => ({
-      ...prev,
-      [day]: {
-        ...prev[day],
-        [field]: value
-      }
-    }));
-  };
-
-  const anyDayEnabled = Object.values(weekdays).some(day => day.enabled);
+  const watchedWeekdays = form.watch('weekdays');
+  const anyDayEnabled = Object.values(watchedWeekdays).some(day => day.enabled);
 
   return (
     <div>
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-8">
-        <Button variant="ghost" size="sm" onClick={onCancel}>
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Voltar
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold">Criar Novo Evento</h1>
-          <p className="text-muted-foreground">Configure seu novo tipo de evento</p>
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Basic Information */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Calendar className="w-5 h-5" />
-                Informações Básicas
-              </CardTitle>
-              <CardDescription>
-                Defina as informações principais do seu evento
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="title">Título do Evento *</Label>
-                <Input
-                  id="title"
-                  placeholder="Ex: Consulta Rápida"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="description">Descrição</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Descreva brevemente o que será tratado neste evento"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  rows={3}
-                />
-              </div>
-
-              <div>
-                <Label htmlFor="duration">Duração (minutos)</Label>
-                <Select value={duration.toString()} onValueChange={(value) => setDuration(parseInt(value))}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="15">15 minutos</SelectItem>
-                    <SelectItem value="30">30 minutos</SelectItem>
-                    <SelectItem value="45">45 minutos</SelectItem>
-                    <SelectItem value="60">1 hora</SelectItem>
-                    <SelectItem value="90">1h 30min</SelectItem>
-                    <SelectItem value="120">2 horas</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Availability */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Clock className="w-5 h-5" />
-                Disponibilidade por Dia
-              </CardTitle>
-              <CardDescription>
-                Configure sua disponibilidade para cada dia da semana
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {Object.entries(dayLabels).map(([dayKey, dayLabel]) => (
-                <div key={dayKey} className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label className="text-sm font-medium">{dayLabel}</Label>
-                    </div>
-                    <Switch
-                      checked={weekdays[dayKey].enabled}
-                      onCheckedChange={(checked) => updateDayAvailability(dayKey, 'enabled', checked)}
-                    />
-                  </div>
-
-                  {weekdays[dayKey].enabled && (
-                    <div className="grid grid-cols-2 gap-3 pl-4 border-l-2 border-primary/20">
-                      <div>
-                        <Label className="text-xs text-muted-foreground">Início</Label>
-                        <Select 
-                          value={weekdays[dayKey].startTime} 
-                          onValueChange={(value) => updateDayAvailability(dayKey, 'startTime', value)}
-                        >
-                          <SelectTrigger className="h-8">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {timeOptions.map(time => (
-                              <SelectItem key={time} value={time}>{time}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div>
-                        <Label className="text-xs text-muted-foreground">Fim</Label>
-                        <Select 
-                          value={weekdays[dayKey].endTime} 
-                          onValueChange={(value) => updateDayAvailability(dayKey, 'endTime', value)}
-                        >
-                          <SelectTrigger className="h-8">
-                            <SelectValue />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {timeOptions.map(time => (
-                              <SelectItem key={time} value={time}>{time}</SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                      </div>
-                    </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Basic Information */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Informações Básicas
+                </CardTitle>
+                <CardDescription>
+                  Defina as informações principais do seu evento
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Título do Evento *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Ex: Consulta Rápida" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Nome que será exibido para os visitantes
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
                   )}
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </div>
+                />
 
-        {/* Actions */}
-        <div className="flex items-center justify-end gap-4 pt-6 border-t">
-          <Button type="button" variant="outline" onClick={onCancel}>
-            Cancelar
-          </Button>
-          <Button 
-            type="submit" 
-            className="bg-primary hover:bg-primary/90"
-            disabled={!title.trim() || !anyDayEnabled}
-          >
-            Criar Evento
-          </Button>
-        </div>
-      </form>
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Descrição</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Descreva brevemente o que será tratado neste evento"
+                          rows={3}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Informações adicionais sobre o evento (opcional)
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="duration"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Duração (minutos)</FormLabel>
+                      <Select
+                        onValueChange={value => field.onChange(parseInt(value))}
+                        value={field.value.toString()}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="15">15 minutos</SelectItem>
+                          <SelectItem value="30">30 minutos</SelectItem>
+                          <SelectItem value="45">45 minutos</SelectItem>
+                          <SelectItem value="60">1 hora</SelectItem>
+                          <SelectItem value="90">1h 30min</SelectItem>
+                          <SelectItem value="120">2 horas</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormDescription>
+                        Tempo de duração do evento
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+
+            {/* Availability */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="w-5 h-5" />
+                  Disponibilidade por Dia
+                </CardTitle>
+                <CardDescription>
+                  Configure sua disponibilidade para cada dia da semana
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                {Object.entries(dayLabels).map(([dayKey, dayLabel]) => (
+                  <div key={dayKey} className="space-y-3">
+                    <FormField
+                      control={form.control}
+                      name={`weekdays.${dayKey}.enabled` as const}
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center justify-between">
+                            <FormLabel className="text-sm font-medium">
+                              {dayLabel}
+                            </FormLabel>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {watchedWeekdays[dayKey as keyof typeof watchedWeekdays]
+                      ?.enabled && (
+                      <div className="grid grid-cols-2 gap-3 pl-4 border-l-2 border-primary/20">
+                        <FormField
+                          control={form.control}
+                          name={`weekdays.${dayKey}.startTime` as const}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-muted-foreground">
+                                Início
+                              </FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {timeOptions.map(time => (
+                                    <SelectItem key={time} value={time}>
+                                      {time}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name={`weekdays.${dayKey}.endTime` as const}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-xs text-muted-foreground">
+                                Fim
+                              </FormLabel>
+                              <Select
+                                onValueChange={field.onChange}
+                                value={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="h-8">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {timeOptions.map(time => (
+                                    <SelectItem key={time} value={time}>
+                                      {time}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {/* General weekdays validation message */}
+                <FormField
+                  control={form.control}
+                  name="weekdays"
+                  render={() => (
+                    <FormItem>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center justify-end gap-4 pt-6 border-t">
+            <Button type="button" variant="outline" onClick={onCancel}>
+              Cancelar
+            </Button>
+            <Button
+              type="submit"
+              className="bg-primary hover:bg-primary/90"
+              disabled={form.formState.isSubmitting || !anyDayEnabled}
+            >
+              {form.formState.isSubmitting ? 'Criando...' : 'Criar Evento'}
+            </Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 };

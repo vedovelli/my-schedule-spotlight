@@ -1,0 +1,9 @@
+echo "🔍 Running Quality Assurance checks..."
+
+echo "🚀 Running complete QA pipeline (typecheck + lint + format:check + tests)..."
+npm run qa
+
+echo "🏗️ Building project..."
+npm run build
+
+echo "✅ All QA checks passed!"
